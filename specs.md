@@ -30,7 +30,7 @@ In addition: based on the Tisane signal to noise ranking, off-topic and low-qual
 *	Source code for the plug-in stored in GitHub under https://github.com/tisanelabs/talk-plugin-tisane.
 * Running instance of the Talk server with the plug-in installed. A Linux machine instance in the cloud will be provided by Tisane Labs after a consultation with the developers.
 
-# Plug-in Configuration Settings
+## Plug-in Configuration Settings
 
 *	`TALK_TISANE_API_KEY` (required) – the API key for Tisane. An API key can be obtained at https://tisane.ai/signup/. 
 *	`TALK_TISANE_LANGUAGE_CODE` (required) – the language code to send to Tisane API. The default is `en`.
