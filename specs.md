@@ -74,4 +74,4 @@ The response will contain an attribute containing an array of integers to be use
 When analysing comments which are not responses to another comment, the `$DEPENDS_ON_SITUATION` portion of the settings is the relevant attribute returned by the article title analysis. For example, `"relevant": [12345,67890,23469]`.
 
 ## Response Comments
-When analysing comments which respond to other comments, the `$DEPENDS_ON_SITUATION` portion of the settings is empty.
+When analysing comments which respond to other comments, the `$DEPENDS_ON_SITUATION` portion of the settings is empty. Note that the comma before it must be removed, otherwise, the JSON is not valid. 
