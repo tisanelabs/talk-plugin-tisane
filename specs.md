@@ -51,7 +51,7 @@ There is only one web method to call: POST https://api.tisane.ai/parse. The meth
 *	`content` – the text to be analysed. 
 *	`settings` – a JSON set of settings to be sent. 
 
-In order to authenticate, add your Tisane API key as a `Ocp-Apim-Subscription-Key` header with your call as (directed in the Tisane API Knowledge Base)[http://tisane.ai/knowledgebase/how-do-i-get-the-api-key/]. In order to measure the signal to noise ranking (that is, see whether the comment is offtopic), we first need to obtain the relevant topics and concepts. This is accomplished by analysing the article’s title / headline. The response provides an array of integers used in the settings string when analysing comments.
+In order to authenticate, add your Tisane API key as a `Ocp-Apim-Subscription-Key` header with your call as [directed in the Tisane API Knowledge Base](http://tisane.ai/knowledgebase/how-do-i-get-the-api-key/). In order to measure the signal to noise ranking (that is, see whether the comment is offtopic), we first need to obtain the relevant topics and concepts. This is accomplished by analysing the article’s title / headline. The response provides an array of integers used in the settings string when analysing comments.
 
 Generally, the settings string is set to `{"parses":false, "sentiment":false, "words":false, "deterministic":true, "format":"dialogue", "domain_factors": $TALK_TISANE_DOMAIN_FACTORS, $DEPENDS_ON_SITUATION}` where:
 
