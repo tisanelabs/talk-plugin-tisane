@@ -11,7 +11,7 @@ Talk allows plug-ins. We want to build a plug-in that uses Tisane API to help mo
 Similarly to the [Talk Toxic Comments plug-in](https://docs.coralproject.net/talk/toxic-comments/), but with slightly different conditions: 
 
 * The plug-in sends every incoming comment to the Tisane service for analysis
-* If a comment contains an abuse snippet of the type: `bigotry`, `personal_attack`, `sexual_advances`, `profanity`, and the abuse type is enabled via the plug-in configuration (see the _Configuration_ chapter below), the commenter is warned that their comment may violate the community rules. The commenter is given the chance to modify their comment before posting. If a comment contains an abuse snippet of the type `criminal_activity` or `spam`, it is sent to the Reported queue for moderation, and is not displayed in the stream. 
+* If a comment contains an abuse snippet of the type: `bigotry`, `personal_attack`, `sexual_advances`, `profanity`, and the abuse type is enabled via the plug-in configuration (see the _Plug-in Configuration Settings_ chapter below), the commenter is warned that their comment may violate the community rules. The commenter is given the chance to modify their comment before posting. If a comment contains an abuse snippet of the type `criminal_activity` or `spam`, it is sent to the Reported queue for moderation, and is not displayed in the stream. 
 * If the analysis of the revised comment does not contain any abuse, the comment is posted and displayed normally. 
 * If there is still some kind of abuse, the comment is not displayed in the stream and instead is sent to the Reported queue for moderation.
 * If the moderator accepts the comment, it’s displayed on the stream. If it is rejected, it will not be displayed. 
@@ -30,7 +30,7 @@ In addition: based on the Tisane signal to noise ranking, off-topic and low-qual
 *	Source code for the plug-in stored in GitHub under https://github.com/tisanelabs/talk-plugin-tisane.
 * Running instance of the Talk server with the plug-in installed. A Linux machine instance in the cloud will be provided by Tisane Labs after a consultation with the developers.
 
-# Configuration
+# Plug-in Configuration Settings
 
 *	`TALK_TISANE_API_KEY` (required) – the API key for Tisane. An API key can be obtained at https://tisane.ai/signup/. 
 *	`TALK_TISANE_LANGUAGE_CODE` (required) – the language code to send to Tisane API. The default is `en`.
@@ -39,7 +39,39 @@ In addition: based on the Tisane signal to noise ranking, off-topic and low-qual
 *	`TALK_TISANE_ALLOW_PROFANITY` – if true, then profanity will not be considered abuse (default: `false`).
 *	`TALK_TISANE_ALLOW_SEXUAL_ADVANCES` – if true, then sexual advances will not be considered abuse (default: `false`)
 *	`TALK_TISANE_DOMAIN_FACTORS` – used to customise disambiguation, e.g. prioritise a particular location when ambiguous (default: not set). 
-*	`TALK_TISANE_KEYWORD_FEATURES` – used to find concepts relevant to the signal to noise ranking (default: ["4":"REG"]). 
-*	`TALK_TISANE_STOP_HYPERNYMS` – used to mark particular concepts as stop-words based on their hypernyms or “supertypes” (default: `[41239, 108268, 10284, 96652]`). 
-•	`TALK_TISANE_MINIMUM_SIGNAL2NOISE` – the minimum signal to noise ranking for a comment not to be tagged as off-topic. 
+*	`TALK_TISANE_KEYWORD_FEATURES` – used to find concepts relevant to the signal to noise ranking (default: `["4":"REG"]`). Only used when analysing the headline.
+*	`TALK_TISANE_STOP_HYPERNYMS` – used to mark particular concepts as stop-words based on their hypernyms or “supertypes” (default: `[41239, 108268, 10284, 96652]`). Only used when analysing the headline.
+*	`TALK_TISANE_MINIMUM_SIGNAL2NOISE` – the minimum signal to noise ranking for a comment not to be tagged as off-topic. *Only if* the value of the `signal2noise` attribute in the response exists and is lower than the setting, the comment is to be tagged as `OFF_TOPIC`.
 
+# Tisane API Calls
+
+There is only one web method to call: POST https://api.tisane.ai/parse. The method has a JSON body with three attributes:
+
+*	`language` – the language code (normally ISO 639-2 / IETF) of the content. Taken from the `TALK_TISANE_LANGUAGE_CODE` configuration parameter. 
+*	`content` – the text to be analysed. 
+*	`settings` – a JSON set of settings to be sent. 
+
+In order to authenticate, add your Tisane API key as a `Ocp-Apim-Subscription-Key` header with your call as (directed in the Tisane API Knowledge Base)[http://tisane.ai/knowledgebase/how-do-i-get-the-api-key/]. In order to measure the signal to noise ranking (that is, see whether the comment is offtopic), we first need to obtain the relevant topics and concepts. This is accomplished by analysing the article’s title / headline. The response provides an array of integers used in the settings string when analysing comments.
+
+Generally, the settings string is set to `{"parses":false, "sentiment":false, "words":false, "deterministic":true, "format":"dialogue", "domain_factors": $TALK_TISANE_DOMAIN_FACTORS, $DEPENDS_ON_SITUATION}` where:
+
+* `$TALK_TISANE_DOMAIN_FACTORS` is the value of the `TALK_TISANE_DOMAIN_FACTORS` configuration setting
+* `$DEPENDS_ON_SITUATION` depends on the situation, as described below
+
+# Settings
+
+## Article Title
+When analysing the article title to get the list of relevant concepts and topics, the `$CUSTOM` portion of the settings is:
+
+`"keyword_features": $TALK_TISANE_KEYWORD_FEATURES, "stop_hypernyms": $TALK_TISANE_STOP_HYPERNYMS`
+
+Where
+*	`$TALK_TISANE_KEYWORD_FEATURES` is the value of the `TALK_TISANE_KEYWORD_FEATURES` configuration setting
+*	`$TALK_TISANE_STOP_HYPERNYMS` is the value of the `TALK_TISANE_STOP_HYPERNYMS` configuration setting
+The response will contain an attribute containing an array of integers to be used when analysing comments. The name of the attribute is relevant. (For example, `"relevant": [12345,67890,23469]`.)
+
+## Root Comments
+When analysing comments which are not responses to another comment, the `$DEPENDS_ON_SITUATION` portion of the settings is the relevant attribute returned by the article title analysis. For example, `"relevant": [12345,67890,23469]`.
+
+## Response Comments
+When analysing comments which respond to other comments, the `$DEPENDS_ON_SITUATION` portion of the settings is empty.
