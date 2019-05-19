@@ -41,7 +41,7 @@ In addition: based on the Tisane signal to noise ranking, off-topic and low-qual
 *	`TALK_TISANE_DOMAIN_FACTORS` – used to customise disambiguation, e.g. prioritise a particular location when ambiguous (default: not set). 
 *	`TALK_TISANE_KEYWORD_FEATURES` – used to find concepts relevant to the signal to noise ranking (default: `{"4":"REG"}`). Only used when analysing the headline.
 *	`TALK_TISANE_STOP_HYPERNYMS` – used to mark particular concepts as stop-words based on their hypernyms or “supertypes” (default: `[41239, 108268, 10284, 96652]`). Only used when analysing the headline.
-*	`TALK_TISANE_MINIMUM_SIGNAL2NOISE` – the minimum signal to noise ranking for a comment not to be tagged as off-topic (default: `8.0`). *Only if* the value of the `signal2noise` attribute in the response exists and is lower than the setting, the comment is to be tagged as `OFF_TOPIC`.
+*	`TALK_TISANE_MINIMUM_SIGNAL2NOISE` – the minimum signal to noise ranking for a comment not to be tagged as off-topic (default: `4.0`). *Only if* the value of the `signal2noise` attribute in the response exists and is lower than the setting, the comment is to be tagged as `OFF_TOPIC`.
 
 # Tisane API Calls
 
