@@ -1,0 +1,217 @@
+ar:
+  error:
+    COMMENT_IS_TOXIC: |
+      هل أنت واثق؟ قد تنتهك اللغة الواردة في هذا التعليق إرشادات المجموعة. يمكنك تعديل التعليق أو إرساله لمراجعته.
+  talk-plugin-toxic-comments:
+    unlikely: "من غير المرجح"
+    highly_likely: "من المرجح جدا"
+    possibly: "ربما"
+    likely: "مرجح"
+    toxic_comment: "تعليق سام"
+    still_toxic: |
+      قد يظل هذا التعليق المعدل منتهكاً لإرشادات المجموعة. سيراجع فريق الإشراف لدينا تعليقك قريبا.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "من المرجح جدا أن يكون ساماً"
+da:
+  error:
+    COMMENT_IS_TOXIC: |
+      Are you sure? The language in this comment might violate our community guidelines.
+      You can edit the comment or submit it for moderator review.
+  talk-plugin-toxic-comments:
+    unlikely: "Unlikely"
+    highly_likely: "Highly Likely"
+    possibly: "Possibly"
+    likely: "Likely"
+    toxic_comment: "Toxic Comment"
+    still_toxic: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Highly likely to be Toxic"        
+de:
+  error:
+    COMMENT_IS_TOXIC: |
+      Sind Sie sicher? Die Formulierungen in Ihrem Kommentar könnten den Community-Richtlinien widersprechen.
+      Sie können ihren Kommentar bearbeiten oder zur Prüfung durch unsere Moderatoren einreichen.
+  talk-plugin-toxic-comments:
+    unlikely: Unwahrscheinlich
+    highly_likely: Höchstwahrscheinlich
+    possibly: Möglicherweise
+    likely: Wahrscheinlich
+    toxic_comment: Bösartiger Kommentar
+    still_toxic: |
+      Der bearbeitete Kommentar könnte noch immer den Community-Richtlinien widersprechen.
+      Unsere Moderatoren werden Ihren Kommentar in Kürze prüfen.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Höchstwahrscheinlich bösartig"
+en:
+  error:
+    COMMENT_IS_TOXIC: |
+      Are you sure? The language in this comment might violate our community guidelines.
+      You can edit the comment or submit it for moderator review.
+  talk-plugin-toxic-comments:
+    unlikely: "Unlikely"
+    highly_likely: "Highly Likely"
+    possibly: "Possibly"
+    likely: "Likely"
+    toxic_comment: "Toxic Comment"
+    still_toxic: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Highly likely to be Toxic"
+es:
+  error:
+    COMMENT_IS_TOXIC: |
+      ¿Estás seguro? El lenguaje en este comentario puede violar nuestras pautas de la comunidad. 
+      Puede editar el comentario o enviarlo para la revisión del moderador.
+  talk-plugin-toxic-comments:
+    unlikely: "Improbable"
+    highly_likely: "Altamente Probable"
+    possibly: "Posiblemente"
+    likely: "Probable"
+    toxic_comment: "Comentario Tóxico"
+    still_toxic: |
+      Este comentario editado aún puede infringir las pautas de nuestra comunidad. 
+      Nuestro equipo de moderación revisará tu comentario en breve.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Muy probable que sea tóxico"
+fr:
+  error:
+    COMMENT_IS_TOXIC: |
+      Are you sure? The language in this comment might violate our community guidelines.
+      You can edit the comment or submit it for moderator review.
+  talk-plugin-toxic-comments:
+    unlikely: "Unlikely"
+    highly_likely: "Highly Likely"
+    possibly: "Possibly"
+    likely: "Likely"
+    toxic_comment: "Toxic Comment"
+    still_toxic: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Highly likely to be Toxic"
+he:
+  error:
+    COMMENT_IS_TOXIC: |
+      האם אתה בטוח? השפה שבתגובה זו עלולה להפר את הנחיות הקהילה שלנו. תוכל לערוך את ההערה או לשלוח אותה לביקורת של המתווך.
+  talk-plugin-toxic-comments:
+    unlikely: "לא סביר"
+    highly_likely: "סביר מאוד"
+    possibly: "יתכן"
+    likely: "סביר"
+    toxic_comment: "תגובה רעילה"
+    still_toxic: |
+      תגובה זו עדיין עשויה להפר את הנחיות הקהילה שלנו. צוות הפיקוח שלנו יבחן את ההערה שלך בקרוב.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "סביר מאוד להיות רעיל"
+it:
+  error:
+    COMMENT_IS_TOXIC: |
+      Sei sicuro? Il linguaggio in questo commento potrebbe violare le linee guida della community
+      Puoi modificare questo commento o sottoporlo alla revisione del moderatore
+  talk-plugin-toxic-comments:
+    unlikely: "Improbabile"
+    highly_likely: "Estremamente probabile"
+    possibly: "Possibilmente"
+    likely: "Probabilmente"
+    toxic_comment: "Commento Tossico"
+    still_toxic: |
+      Questo commento modificato potrebbe comunque violare le linee guida della community
+      Il nostro team di moderatori revisionerà il tuo commento a breve
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Estremamente probabile che sia Tossico"
+nl_NL:
+  error:
+    COMMENT_IS_TOXIC: |
+      Weet je het zeker? Het taalgebruik in deze reactie kan de community richtlijnen schenden.
+      Je kan je reactie wijzigen of je reactie indienen zodat ons moderatieteam het kan beoordelen.
+  talk-plugin-toxic-comments:
+    unlikely: "Onwaarschijnlijk"
+    highly_likely: "Heel waarschijnlijk"
+    possibly: "Mogelijk"
+    likely: "Waarschijnlijk"
+    toxic_comment: "Toxic Comment"
+    still_toxic: |
+      Deze gewijzigde reactie kan nog steeds onze community richtlijnen schenden
+      Ons moderatieteam zal je reactie beoordelen.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Zeer waarschijnlijk toxic"
+pt_BR:
+  error:
+    COMMENT_IS_TOXIC: |
+      Are you sure? The language in this comment might violate our community guidelines.
+      You can edit the comment or submit it for moderator review.
+  talk-plugin-toxic-comments:
+    unlikely: "Unlikely"
+    highly_likely: "Highly Likely"
+    possibly: "Possibly"
+    likely: "Likely"
+    toxic_comment: "Toxic Comment"
+    still_toxic: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Highly likely to be Toxic"
+sr:
+  error:
+    COMMENT_IS_TOXIC: |
+      Da li ste sigurni? Jezik u ovom komentaru može narušavati naša pravila diskusije.
+      Pregledajte komentar, ili ga svejdno pošaljite moderatoru na odobrenje.
+  talk-plugin-toxic-comments:
+    unlikely: "Malo verovatno"
+    highly_likely: "Vrlo verovatno"
+    possibly: "Moguće"
+    likely: "Verovatno"
+    toxic_comment: "Toksičan komentar"
+    still_toxic: |
+      Ovako preuređen komentar još uvek može narušavati naša pravila diskusije.
+      Naš moderatorski tim će uskro pregledati vaš komentar.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Vrlo verovatno toksičan"
+zh_CN:
+  error:
+    COMMENT_IS_TOXIC: "您确定吗？此评论的表述可能违反了我们的社群指引方针。您可以编辑评论，或直接提交让管理人员审查。"
+  talk-plugin-toxic-comments:
+    unlikely: "极低可能"
+    highly_likely: "极高可能"
+    possibly: "有可能"
+    likely: "很有可能"
+    toxic_comment: "不当评论"
+    still_toxic: "此编辑后评论可能仍违反了我们的社群指引方针。我们的审查团队将马上处理您的评论。"
+zh_TW:
+  error:
+    COMMENT_IS_TOXIC: |
+      確定提交評論？該評論可能包含違反社區準則的言論。您可以編輯該評論或提交以待審核。
+  talk-plugin-toxic-comments:
+    unlikely: 極低可能
+    highly_likely: 極高可能
+    possibly: 有可能
+    likely: 很有可能
+    toxic_comment: 不當評論
+    still_toxic: |
+      該評論經修改後仍有可能違反社區準則。
+      我們的審核團隊會儘快審核該您的評論。
