@@ -1,7 +1,8 @@
 const { readFileSync } = require('fs');
 const path = require('path');
 const hooks = require('./server/hooks');
-const resolvers = require('./server/resolvers');
+const resolver = require('./server/resolvers');
+const tags = require('./server/tags');
 
 module.exports = {
   typeDefs: readFileSync(
@@ -9,5 +10,6 @@ module.exports = {
     'utf8'
   ),
   hooks,
-  resolvers,
+  resolver,
+  tags
 };

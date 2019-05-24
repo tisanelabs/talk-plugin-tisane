@@ -6,5 +6,5 @@ input CreateCommentInput {
 }
 
 type Comment {
-  toxicity: Float
+  toxicity: Int
 }

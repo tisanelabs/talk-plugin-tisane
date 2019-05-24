@@ -1,37 +1,43 @@
 import React from 'react';
 import { CommentDetail } from 'plugin-api/beta/client/components';
-import { isToxic } from '../utils';
+import { isToxic, isOffTopic } from '../utils';
 import styles from './ToxicDetail.css';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { t } from 'plugin-api/beta/client/services';
 
-const getInfo = (toxicity, actions) => {
+const getInfo = (toxicity, actions, tags) => {
   const toxic = isToxic(actions);
-  let text = t('talk-plugin-toxic-comments.unlikely');
-  if (toxicity > 0.8) {
-    text = t('talk-plugin-toxic-comments.highly_likely');
-  } else if (toxicity >= 0.7) {
-    text = t('talk-plugin-toxic-comments.likely');
-  } else if (toxicity >= 0.5) {
-    text = t('talk-plugin-toxic-comments.possibly');
+  const offtopic = isOffTopic (tags)
+  let text = t('talk-plugin-toxic-tisane.unlikely');
+  if (toxicity == 2) {
+    text = t('talk-plugin-toxic-tisane.highly_likely');
+  } else if (toxicity == 1) {
+    text = t('talk-plugin-toxic-tisane.likely');
+  } else if (toxicity == 0) {
+    text = t('talk-plugin-toxic-tisane.possibly');
+  }
+
+  if (offtopic){
+    text = text + "OFF-TOPIC Comment"
   }
 
   return (
     <div>
-      {text}
+    
       <span className={cn(styles.info, { [styles.toxic]: toxic })}>
-        {Math.round(toxicity * 100)}%
+      {text}
       </span>
+
     </div>
   );
 };
 
-const ToxicLabel = ({ comment: { actions, toxicity } }) => (
+const ToxicLabel = ({ comment: { actions, toxicity, tags } }) => (
   <CommentDetail
     icon={'error'}
-    header={t('talk-plugin-toxic-comments.toxic_comment')}
-    info={getInfo(toxicity, actions)}
+    header={t('talk-plugin-toxic-tisane.toxic_comment')}
+    info={getInfo(toxicity, actions, tags)}
   />
 );
 
@@ -39,6 +45,7 @@ ToxicLabel.propTypes = {
   comment: PropTypes.shape({
     actions: PropTypes.array,
     toxicity: PropTypes.toxicity,
+    tags: PropTypes.array
   }),
 };
 

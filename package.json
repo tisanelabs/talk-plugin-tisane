@@ -1,9 +1,11 @@
 {
-  "name": "@coralproject/talk-plugin-toxic-comments",
-  "pluginName": "talk-plugin-toxic-comments",
+  "name": "@coralproject/talk-plugin-tisane",
+  "pluginName": "talk-plugin-toxic-tisane",
   "version": "0.0.1",
-  "description": "Provides support for measuring the toxicity of user comments using the Perspectives API",
+  "description": "Provides support for measuring the toxicity of user comments using the Tisane API",
   "main": "index.js",
-  "author": "The Coral Project Team <coralcore@mozillafoundation.org>",
+  "author": "The Coral Project Team plus Vadim <coralcore@mozillafoundation.org>",
   "license": "Apache-2.0"
 }
+
+
