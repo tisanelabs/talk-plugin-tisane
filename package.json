@@ -1,5 +1,5 @@
 {
-  "name": "@coralproject/talk-plugin-tisane",
+  "name": "@coralproject/talk-plugin-toxic-tisane",
   "pluginName": "talk-plugin-toxic-tisane",
   "version": "0.0.1",
   "description": "Provides support for measuring the toxicity of user comments using the Tisane API",
