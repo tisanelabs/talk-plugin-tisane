@@ -76,7 +76,7 @@ const hooks = {
             );
 
             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-              MarkAsOffTopic(edit)
+           //   MarkAsOffTopic(edit)
             }
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
@@ -106,7 +106,7 @@ const hooks = {
             );
 
             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-              MarkAsOffTopic(input)
+             // MarkAsOffTopic(input)
             }
 
             if (isToxic(scores)) {
