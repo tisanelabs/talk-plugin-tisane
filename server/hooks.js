@@ -5,12 +5,25 @@ const {
 } = require("./perspective");
 const { TALK_TISANE_MINIMUM_SIGNAL2NOISE } = require('./config');
 const { ErrToxic } = require("./errors");
+const { ErrToxic2 } = require("./errors2");
 
 //const { merge } = require("lodash");
 const debug = require("debug")("talk:plugin:toxic-tisane"); //talk:plugin:toxic-comments
 
 function handlePositiveToxic(input) {
   input.status = "SYSTEM_WITHHELD";
+  input.actions =
+  input.actions && input.actions.length >= 0 ? input.actions : [];
+  input.actions.push({
+    action_type: "FLAG",
+    user_id: null,
+    group_id: "TOXIC_COMMENT",
+    metadata: {}
+  });
+}
+
+function hidePositiveToxic(input) {
+  input.status = "PREMOD";
   input.actions =
   input.actions && input.actions.length >= 0 ? input.actions : [];
   input.actions.push({
@@ -109,15 +122,22 @@ const hooks = {
              // MarkAsOffTopic(input)
            }
 
-            if (isToxic(scores)) {
+            if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
+            if (input.checkToxicity ){
+              throw new ErrToxic2();
+            }
+             hidePositiveToxic(input)
+            }
+            else if (isToxic(scores)) {
+             
               if (input.checkToxicity) {
                 throw new ErrToxic();
               }
-
               // Mark the comment as positive toxic.
               handlePositiveToxic(input);
             }
 
+           
             // Attach level to metadata also.
             input.metadata = Object.assign({}, input.metadata, {
               perspective: scores

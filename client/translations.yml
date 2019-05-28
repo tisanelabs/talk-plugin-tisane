@@ -55,6 +55,8 @@ en:
     COMMENT_IS_TOXIC: |
       Are you sure? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
+    COMMENT_IS_MOD: |
+      This comment has some Spammy or Criminal intentions and has been Reported.  
   talk-plugin-toxic-tisane:
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
