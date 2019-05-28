@@ -76,13 +76,15 @@ async function getScores(text, relevant) {
     console.log("Get Score for Text Error: "+ data.error)
     return {
       TOXICITY: {
-        AbuseList: null
-      
+        AbuseList: null,
+        SignaltoNoise: data.signal2noise
       }
     };
   }
 
   console.log("Get  Score for Text Success: "+ JSON.stringify(data))
+  
+  if(data.abuse){
   allowed = findAllowedToxic(data.abuse)
 
   banned = findBannedToxic(data.abuse)
@@ -99,11 +101,12 @@ async function getScores(text, relevant) {
     severity = 0
     console.log("Severity Level is: "+ severity)
   }
-// SignaltoNoise: data.signal2noise
+}
+// 
   return {
     TOXICITY: {
-      AbuseLevel: severity
-     
+      AbuseLevel: severity,
+      SignaltoNoise: data.signal2noise
     }
   };
 }
@@ -116,7 +119,6 @@ async function getScores(text, relevant) {
  */
 async function getScoresAbtTitle(title) {
   debug('Sending Headline to Tisane: %o', title);
-  let severity = 0 //Normal level
   // Send the comment off to be analyzed.
   const data = await send({
     content: title,
