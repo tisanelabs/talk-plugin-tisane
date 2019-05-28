@@ -75,9 +75,9 @@ const hooks = {
               headlinerelevant.TOPIC.relevant
             );
 
-        //    if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-           //   MarkAsOffTopic(edit)
-          //  }
+            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+             MarkAsOffTopic(edit)
+            }
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
                 handlePositiveToxic(edit);
@@ -105,9 +105,9 @@ const hooks = {
               headlinerelevant.TOPIC.relevant
             );
             console.log("Got scores for Now: "+JSON.stringify(scores))
-         //   if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-             // MarkAsOffTopic(input)
-          //  }
+           if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+              MarkAsOffTopic(input)
+           }
 
             if (isToxic(scores)) {
               if (input.checkToxicity) {
