@@ -95,7 +95,7 @@ const hooks = {
           input.asset_id
         );
         debug("Asset is here found: %o", JSON.stringify(asset));
-        console.log(JSON.stringify(asset))
+     
         if (asset !== null && asset !== undefined) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
           if (headlinerelevant.TOPIC.relevant !== null ) {
@@ -104,10 +104,10 @@ const hooks = {
               input.body,
               headlinerelevant.TOPIC.relevant
             );
-
-            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+            console.log("Got scores for Now: "+JSON.stringify(scores))
+         //   if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
              // MarkAsOffTopic(input)
-            }
+          //  }
 
             if (isToxic(scores)) {
               if (input.checkToxicity) {
