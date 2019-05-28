@@ -12,7 +12,7 @@ const debug = require("debug")("talk:plugin:toxic-tisane"); //talk:plugin:toxic-
 function handlePositiveToxic(input) {
   input.status = "SYSTEM_WITHHELD";
   input.actions =
-    input.actions && input.actions.length >= 0 ? input.actions : [];
+  input.actions && input.actions.length >= 0 ? input.actions : [];
   input.actions.push({
     action_type: "FLAG",
     user_id: null,
@@ -76,7 +76,7 @@ const hooks = {
             );
 
             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-             // MarkAsOffTopic(edit)
+              MarkAsOffTopic(edit)
             }
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
@@ -106,7 +106,7 @@ const hooks = {
             );
 
             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-             // MarkAsOffTopic(input)
+              MarkAsOffTopic(input)
             }
 
             if (isToxic(scores)) {
