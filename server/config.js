@@ -14,7 +14,7 @@ const config = {
   TALK_TISANE_MINIMUM_SIGNAL2NOISE  : process.env.TALK_TISANE_MINIMUM_SIGNAL2NOISE  || 4.0,
   TALK_TISANE_BANNED_ABUSE: process.env.TALK_TISANE_BANNED_ABUSE || ['criminal_activity','spam'],
   TALK_TISANE_ALLOWED_ABUSE  : process.env.TALK_TISANE_ALLOWED_ABUSE  || ['profanity','bigotry','personal_attack','sexual_advances'],
-  API_TIMEOUT: ms(process.env.TALK_PERSPECTIVE_TIMEOUT || '300ms')
+  API_TIMEOUT: ms(process.env.TALK_PERSPECTIVE_TIMEOUT || '3000ms')
   
 };
 
