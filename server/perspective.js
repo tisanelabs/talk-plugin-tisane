@@ -31,7 +31,7 @@ async function send(body) {
       'Ocp-Apim-Subscription-Key': TALK_TISANE_API_KEY
     },
     timeout: API_TIMEOUT,
-    body: JSON.stringify(body, null, 2),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
@@ -80,7 +80,7 @@ async function getScores(text, relevant) {
     };
   }
 
-  console.log("Get Headline Success: "+ data)
+  console.log("Get  Score for Text Success: "+ data)
   var allowed = findAllowedToxic(data.abuse)
 
   var banned = findBannedToxic(data.abuse)
@@ -123,7 +123,7 @@ async function getScoresAbtTitle(title) {
       "words":false, 
       "deterministic":true, 
       "format":"dialogue",
-      "keyword_features": JSON.stringify(TALK_TISANE_KEYWORD_FEATURES), 
+      "keyword_features": TALK_TISANE_KEYWORD_FEATURES[0], 
       "stop_hypernyms": TALK_TISANE_STOP_HYPERNYMS
     }
   });
