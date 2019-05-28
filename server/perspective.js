@@ -19,6 +19,8 @@ const {
 const debug = require('debug')('talk:plugin:toxic-tisane');
 const get = require('lodash/get');
 
+//cd plugins/talk-plugin-toxic-tisane
+//sudo nano server/perspective.js
 
 async function send(body) {
   // Perform the fetch.
@@ -69,6 +71,7 @@ async function getScores(text, relevant) {
 
   if (!data || data.error) {
     debug('Received Error when submitting: %o', data.error);
+    console.log("Get Score for Text Error: "+ data.error)
     return {
       TOXICITY: {
         AbuseList: null,
@@ -77,6 +80,7 @@ async function getScores(text, relevant) {
     };
   }
 
+  console.log("Get Headline Success: "+ data)
   var allowed = findAllowedToxic(data.abuse)
 
   var banned = findBannedToxic(data.abuse)
@@ -110,7 +114,7 @@ async function getScoresAbtTitle(title) {
   let severity = 0 //Normal level
   // Send the comment off to be analyzed.
   const data = await send({
-    content: text,
+    content: title,
     // TODO: support other languages.
     language: TALK_TISANE_LANGUAGE_CODE,
     settings: {
@@ -119,13 +123,14 @@ async function getScoresAbtTitle(title) {
       "words":false, 
       "deterministic":true, 
       "format":"dialogue",
-      "keyword_features": TALK_TISANE_KEYWORD_FEATURES, 
+      "keyword_features": JSON.stringify(TALK_TISANE_KEYWORD_FEATURES), 
       "stop_hypernyms": TALK_TISANE_STOP_HYPERNYMS
     }
   });
 
   if (!data || data.error) {
     debug('Received Error when submitting: %o', data.error);
+    console.log("Get Headline Error: "+ data.error)
     return {
       TOPIC: {
         relevant: null
@@ -133,6 +138,7 @@ async function getScoresAbtTitle(title) {
     };
   }
 
+  console.log("Get Headline Success: "+ data)
   
   return {
     TOPIC: {

@@ -2,7 +2,7 @@ const {
   getScores,
   isToxic,
   getScoresAbtTitle
-} = require("./perspective").default;
+} = require("./perspective");
 const { TALK_TISANE_MINIMUM_SIGNAL2NOISE } = require('./config');
 const { ErrToxic } = require("./errors");
 
@@ -51,6 +51,7 @@ async function getScoreOfHeadline(body) {
     scores = await getScoresAbtTitle(body);
   } catch (err) {
     // Warn and let mutation pass.
+    console.log("Request to Headline Analysis Failed: " +err)
     debug("Error sending to API to get headline Relevant array: %o", err);
     return;
   }
@@ -67,6 +68,7 @@ const hooks = {
        const asset = await _context.loaders.Assets.getByID.load(edit.asset_id);
         if (asset) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
+          console.log('headline: '+JSON.stringify(headlinerelevant))
           if (headlinerelevant.TOPIC.relevant !== null) {
             const scores = await getScore(
               body,
@@ -92,9 +94,11 @@ const hooks = {
         const asset = await _context.loaders.Assets.getByID.load(
           input.asset_id
         );
-        if (asset) {
+        debug("Asset is here found: %o", JSON.stringify(asset));
+        console.log(JSON.stringify(asset))
+        if (asset !== null && asset !== undefined) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
-          if (headlinerelevant.TOPIC.relevant !== null) {
+          if (headlinerelevant.TOPIC.relevant !== null ) {
             //Then go ahead and analyse the Comment
             const scores = await getScore(
               input.body,
