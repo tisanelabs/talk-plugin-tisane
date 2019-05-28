@@ -166,7 +166,7 @@ function findAllowedToxic(toxicarray) {
 
   //Find toxic allowed
   TALK_TISANE_ALLOWED_ABUSE.forEach(function (item, index) {
-    for (let ab in toxicarray) {
+    for (let ab of toxicarray) {
       if (ab.type === item){
         abusetemp.push(ab)
         }
@@ -188,7 +188,7 @@ function findBannedToxic(toxicarray) {
 
   //Find toxic banned
   TALK_TISANE_BANNED_ABUSE.forEach(function (item, index) {
-    for (let ab in toxicarray) {
+    for (let ab of toxicarray) {
       if (ab.type === item){
         abusetemp.push(ab)
         }
