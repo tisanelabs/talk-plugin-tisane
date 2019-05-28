@@ -76,8 +76,8 @@ async function getScores(text, relevant) {
     console.log("Get Score for Text Error: "+ data.error)
     return {
       TOXICITY: {
-        AbuseList: null,
-        SignaltoNoise: null
+        AbuseList: null
+      
       }
     };
   }
@@ -99,11 +99,11 @@ async function getScores(text, relevant) {
     severity = 0
     console.log("Severity Level is: "+ severity)
   }
-
+// SignaltoNoise: data.signal2noise
   return {
     TOXICITY: {
-      AbuseLevel: severity,
-      SignaltoNoise: data.signal2noise
+      AbuseLevel: severity
+     
     }
   };
 }

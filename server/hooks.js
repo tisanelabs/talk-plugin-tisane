@@ -75,9 +75,9 @@ const hooks = {
               headlinerelevant.TOPIC.relevant
             );
 
-            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+        //    if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
            //   MarkAsOffTopic(edit)
-            }
+          //  }
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
                 handlePositiveToxic(edit);
