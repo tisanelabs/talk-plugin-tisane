@@ -54,6 +54,8 @@ async function send(body) {
 async function getScores(text, relevant) {
   debug('Sending to Tisane: %o', text);
   let severity = 0 //Normal level
+  let allowed = []
+  let banned = []
   // Send the comment off to be analyzed.
   const data = await send({
     content: text,
@@ -80,19 +82,22 @@ async function getScores(text, relevant) {
     };
   }
 
-  console.log("Get  Score for Text Success: "+ data)
-  var allowed = findAllowedToxic(data.abuse)
+  console.log("Get  Score for Text Success: "+ JSON.stringify(data))
+  allowed = findAllowedToxic(data.abuse)
 
-  var banned = findBannedToxic(data.abuse)
+  banned = findBannedToxic(data.abuse)
 
   if (banned.length > 0){
     severity = 2
+    console.log("Severity Level is: "+ severity)
   }
   else if (allowed.length > 0 ){
     severity = 1
+    console.log("Severity Level is: "+ severity)
   }
   else {
     severity = 0
+    console.log("Severity Level is: "+ severity)
   }
 
   return {
@@ -138,7 +143,7 @@ async function getScoresAbtTitle(title) {
     };
   }
 
-  console.log("Get Headline Success: "+ data)
+  console.log("Get Headline Success: "+ JSON.stringify(data))
   
   return {
     TOPIC: {
