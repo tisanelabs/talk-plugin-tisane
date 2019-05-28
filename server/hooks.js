@@ -24,7 +24,7 @@ function handlePositiveToxic(input) {
 function MarkAsOffTopic(input) {
   input.tags =  input.tags && input.tags.length >= 0 ? input.tags : [];
   input.tags.push({ 
-    tag: {name: 'OFF_TOPIC', created_at: new Date() },
+    tag: {name: "OFF_TOPIC", created_at: new Date() },
     assigned_by: null,
     created_at: new Date()
   })
@@ -76,7 +76,7 @@ const hooks = {
             );
 
             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-              MarkAsOffTopic(edit)
+             // MarkAsOffTopic(edit)
             }
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
@@ -106,7 +106,7 @@ const hooks = {
             );
 
             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-              MarkAsOffTopic(input)
+             // MarkAsOffTopic(input)
             }
 
             if (isToxic(scores)) {
