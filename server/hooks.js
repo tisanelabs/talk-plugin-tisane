@@ -83,7 +83,7 @@ const hooks = {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
           console.log('headline: '+JSON.stringify(headlinerelevant))
           if (headlinerelevant.TOPIC.relevant !== null) {
-            const scores = null
+            let scores = null
             if (input.parent === null){
               scores = await getScore(
               input.body,
@@ -118,7 +118,7 @@ const hooks = {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
           if (headlinerelevant.TOPIC.relevant !== null) {
             //Then go ahead and analyse the Comment
-            const scores = null
+            let scores = null
             if (input.parent === null){
               scores = await getScore(
               input.body,
