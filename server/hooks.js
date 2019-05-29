@@ -88,9 +88,7 @@ const hooks = {
               headlinerelevant.TOPIC.relevant
             );
 
-            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-          //   MarkAsOffTopic(edit)
-            }
+          
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
                 handlePositiveToxic(edit);
@@ -123,10 +121,9 @@ const hooks = {
            }
 
             if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
-            if (input.checkToxicity ){
-              throw new ErrToxic2();
-            }
+           
              hidePositiveToxic(input)
+             throw new ErrToxic2();
             }
             else if (isToxic(scores)) {
              

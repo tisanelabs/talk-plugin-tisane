@@ -57,7 +57,10 @@ async function getScores(text, relevant) {
   let allowed = []
   let banned = []
   // Send the comment off to be analyzed.
-  const data = await send({
+  let data = null
+  if (relevant){
+
+   data = await send({
     content: text,
     // TODO: support other languages.
     language: TALK_TISANE_LANGUAGE_CODE,
@@ -70,6 +73,21 @@ async function getScores(text, relevant) {
       "relevant": relevant
     }
   });
+}
+else{
+   data = await send({
+    content: text,
+    // TODO: support other languages.
+    language: TALK_TISANE_LANGUAGE_CODE,
+    settings: {
+      "parses": false,
+      "sentiment":false, 
+      "words":false, 
+      "deterministic":true, 
+      "format":"dialogue"
+    }
+  });
+}
 
   if (!data || data.error) {
     debug('Received Error when submitting: %o', data.error);
@@ -77,7 +95,7 @@ async function getScores(text, relevant) {
     return {
       TOXICITY: {
         AbuseList: null,
-        SignaltoNoise: data.signal2noise
+        SignaltoNoise: null
       }
     };
   }

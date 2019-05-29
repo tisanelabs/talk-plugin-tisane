@@ -53,15 +53,15 @@ de:
 en:
   error:
     COMMENT_IS_TOXIC: |
-      Are you sure? The language in this comment might violate our community guidelines.
+      Are you sure you want to post this? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
     COMMENT_IS_MOD: |
       This comment has some Spammy or Criminal intentions and has been Reported.  
   talk-plugin-toxic-tisane:
     unlikely: "Unlikely"
-    highly_likely: "Highly Likely"
-    possibly: "Possibly"
-    likely: "Likely"
+    highly_likely: "Highly Likely, Contains Criminal/Spammy content"
+    possibly: "Possibly, but looks clean"
+    likely: "Likely, Contains Bigotry/Personal_attack/Sexual/Profanity content"
     toxic_comment: "Toxic Comment"
     still_toxic: |
       This edited comment might still violate our community guidelines.
