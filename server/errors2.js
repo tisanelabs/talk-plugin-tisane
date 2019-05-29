@@ -7,7 +7,7 @@ class ErrToxic2 extends TalkError {
   constructor() {
     super('Your Comment is toxic to the Community, please rethink this Statement and Consider changing it', {
       status: 400,
-      translation_key: 'COMMENT_IS_MOD',
+      translation_key: 'Please this Comment Contains Criminal/Spammy Content & has been removed.',
     });
   }
 }

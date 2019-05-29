@@ -36,11 +36,7 @@ function hidePositiveToxic(input) {
 
 function MarkAsOffTopic(input) {
   input.tags =  input.tags && input.tags.length >= 0 ? input.tags : [];
-  input.tags.push({ 
-    tag: {name: "OFF_TOPIC", created_at: new Date() },
-    assigned_by: null,
-    created_at: new Date()
-  })
+  input.tags.push("OFF_TOPIC")
 }
 
 async function getScore(body, relevant) {
@@ -84,22 +80,27 @@ const hooks = {
           console.log('headline: '+JSON.stringify(headlinerelevant))
           if (headlinerelevant.TOPIC.relevant !== null) {
             let scores = null
-            if (input.parent === null){
+            if (edit.parent === null){
               scores = await getScore(
-              input.body,
+              body,
               headlinerelevant.TOPIC.relevant
             );
             }
             else {
               scores = await getScore(
-                input.body,
+                body,
                 null
               );
             }
             ////INSERT HERE IN CASE
-             if (isToxic(scores)) {
-                hidePositiveToxic(edit);
+             if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
+              handlePositiveToxic(edit)
+              throw new ErrToxic2();
              }
+             else if (isToxic(scores)) {
+              // Mark the comment as positive toxic.
+              handlePositiveToxic(edit);
+              }
           }
         } else {
           debug("Asset of Context not found onEdit: %o", edit.asset_id);
@@ -133,22 +134,25 @@ const hooks = {
             }
             console.log("Got scores for Now: "+JSON.stringify(scores))
            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-             // MarkAsOffTopic(input)
+              MarkAsOffTopic(input)
            }
 
-            if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
-           
-             hidePositiveToxic(input)
-             throw new ErrToxic2();
-            }
-            else if (isToxic(scores)) {
+             if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
+              
+             
+              if (input.checkToxicity) {
+              throw new ErrToxic2();
+              }
+              handlePositiveToxic(input)
+             }
+             else if (isToxic(scores)) {
              
               if (input.checkToxicity) {
                 throw new ErrToxic();
               }
               // Mark the comment as positive toxic.
               handlePositiveToxic(input);
-            }
+              }
 
            
             // Attach level to metadata also.
