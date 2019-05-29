@@ -83,15 +83,22 @@ const hooks = {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
           console.log('headline: '+JSON.stringify(headlinerelevant))
           if (headlinerelevant.TOPIC.relevant !== null) {
-            const scores = await getScore(
-              body,
+            const scores = null
+            if (input.parent === null){
+              scores = await getScore(
+              input.body,
               headlinerelevant.TOPIC.relevant
             );
-
-          
+            }
+            else {
+              scores = await getScore(
+                input.body,
+                null
+              );
+            }
             ////INSERT HERE IN CASE
              if (isToxic(scores)) {
-                handlePositiveToxic(edit);
+                hidePositiveToxic(edit);
              }
           }
         } else {
@@ -109,12 +116,21 @@ const hooks = {
      
         if (asset !== null && asset !== undefined) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
-          if (headlinerelevant.TOPIC.relevant !== null ) {
+          if (headlinerelevant.TOPIC.relevant !== null) {
             //Then go ahead and analyse the Comment
-            const scores = await getScore(
+            const scores = null
+            if (input.parent === null){
+              scores = await getScore(
               input.body,
               headlinerelevant.TOPIC.relevant
             );
+            }
+            else {
+              scores = await getScore(
+                input.body,
+                null
+              );
+            }
             console.log("Got scores for Now: "+JSON.stringify(scores))
            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
              // MarkAsOffTopic(input)
