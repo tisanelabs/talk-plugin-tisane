@@ -133,6 +133,7 @@ const hooks = {
               );
             }
             console.log("Got scores for Now: "+JSON.stringify(scores))
+            console.log("Got input for Now: "+JSON.stringify(input))
            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
               MarkAsOffTopic(input)
            }
