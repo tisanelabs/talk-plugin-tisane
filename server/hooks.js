@@ -24,16 +24,7 @@ function handlePositiveToxic(input) {
 
 function MarkAsOffTopic(input) {
   input.tags =  input.tags && input.tags.length >= 0 ? input.tags : [];
-  input.tags.push({
-    name: "OFF_TOPIC",
-    permissions: {
-      public: true,
-      self: true,
-      roles: []
-    },
-    models: ["COMMENTS"],
-    created_at: new Date()
-  })
+  input.tags.push("OFF_TOPIC")
 }
 
 async function getScore(body, relevant) {
