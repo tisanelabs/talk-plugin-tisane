@@ -71,7 +71,7 @@ const hooks = {
           if (headlinerelevant.TOPIC.relevant !== null) {
             let scores = null
 
-            if (edit.parent_id === null && edit.parent_id === undefined){
+            if (edit.parent_id === null || edit.parent_id === undefined){
               scores = await getScore(
               body,
               headlinerelevant.TOPIC.relevant
@@ -117,7 +117,7 @@ const hooks = {
             let scores = null
             
             
-            if (input.parent_id === null && input.parent_id === undefined){
+            if (input.parent_id === null || input.parent_id === undefined){
               scores = await getScore(
               input.body,
               headlinerelevant.TOPIC.relevant
