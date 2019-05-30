@@ -58,8 +58,8 @@ async function getScores(text, relevant) {
   let banned = []
   // Send the comment off to be analyzed.
   let data = null
-  if (relevant){
-
+  if (relevant !== null){
+   console.log("Relevant is activated: ")
    data = await send({
     content: text,
     // TODO: support other languages.
@@ -75,6 +75,7 @@ async function getScores(text, relevant) {
   });
 }
 else{
+   console.log("Relevant is not used At all ")
    data = await send({
     content: text,
     // TODO: support other languages.
