@@ -70,20 +70,21 @@ const hooks = {
          
           if (headlinerelevant.TOPIC.relevant !== null) {
             let scores = null
-
+            //Root Comment
             if (edit.parent_id === null || edit.parent_id === undefined){
               scores = await getScore(
               body,
               headlinerelevant.TOPIC.relevant
             );
             }
+            //Response to Comment 
             else if (edit.parent_id !== null || edit.parent_id !== undefined ) {
               scores = await getScore(
                 body,
                 null
               );
             }
-
+            // Can only be executed by ADMIN role, or user marks comment from Client code
              if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
               MarkAsOffTopic(edit)
              }
@@ -98,7 +99,7 @@ const hooks = {
               }
           }
         } else {
-          debug("Asset of Context not found onEdit: %o", edit.asset_id);
+         //Console.log()
         }
       }
     },
@@ -108,7 +109,6 @@ const hooks = {
         const asset = await _context.loaders.Assets.getByID.load(
           input.asset_id
         );
-        debug("Asset is here found: %o", JSON.stringify(asset));
      
         if (asset !== null && asset !== undefined) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
@@ -116,13 +116,14 @@ const hooks = {
             //Then go ahead and analyse the Comment
             let scores = null
             
-            
+              //Root Comment
             if (input.parent_id === null || input.parent_id === undefined){
               scores = await getScore(
               input.body,
               headlinerelevant.TOPIC.relevant
             );
             }
+              //Response to Comment 
             else if (input.parent_id !== null || input.parent_id !== undefined ) {
               scores = await getScore(
                 input.body,
@@ -130,12 +131,12 @@ const hooks = {
               );
             }
 
-            console.log("Got scores for Now: "+JSON.stringify(scores))
-            console.log("Got input for Now: "+JSON.stringify(input))
-
+        //    console.log("Got scores for Now: "+JSON.stringify(scores))
+        //    console.log("Got input for Now: "+JSON.stringify(input))
+          // Can only be executed by ADMIN role, or user marks comment from Client code
            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
               MarkAsOffTopic(input)
-           }
+           } 
 
              if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
               
@@ -168,55 +169,5 @@ const hooks = {
   }
 };
 
-/**
-// If feedback sending is enabled, we need to add in the hooks for processing
-// feedback.
-if (SEND_FEEDBACK) {
-  // statusMap provides a map of Talk names to ones Perspective are expecting.
-  const statusMap = {
-    ACCEPTED: 'APPROVED',
-    REJECTED: 'DELETED',
-  };
-
-  // Merge these hooks into the hooks for plugging into the graph operations.
-  merge(hooks, {
-    RootMutation: {
-      // Hook into mutations associated with accepting/rejecting comments.
-      setCommentStatus: {
-        async post(root, args, ctx) {
-          if (ctx.user && args.status in statusMap) {
-            const comment = await ctx.loaders.Comments.get.load(args.id);
-            if (comment) {
-              const asset = await ctx.loaders.Assets.getByID.load(comment.asset_id);
-
-              // Submit feedback.
-              submitFeedback(comment, asset, statusMap[args.status]);
-            }
-          }
-        },
-      },
-      // Hook into mutations associated with featuring comments.
-      addTag: {
-        async post(root, args, ctx) {
-          if (
-            ctx.user &&
-            args.tag.name === 'FEATURED' &&
-            args.tag.item_type === 'COMMENTS'
-          ) {
-            const comment = await ctx.loaders.Comments.get.load(args.tag.id);
-            if (comment) {
-              const asset = await ctx.loaders.Assets.getByID.load(
-                comment.asset_id
-              );
-
-              // Submit feedback.
-              submitFeedback(comment, asset, 'HIGHLIGHTED');
-            }
-          }
-        },
-      },
-    },
-  });
-}**/
 
 module.exports = hooks;
