@@ -21,7 +21,7 @@ function handlePositiveToxic(input) {
     metadata: {}
   });
 }
-
+//not used for now due to conflict on what to do next
 function MarkAsOffTopic(input) {
   input.tags =  input.tags && input.tags.length >= 0 ? input.tags : [];
   input.tags.push("OFF_TOPIC")
@@ -65,11 +65,10 @@ const hooks = {
        const asset = await _context.loaders.Assets.getByID.load(edit.asset_id);
         if (asset) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
-          
-          console.log('headline: '+JSON.stringify(headlinerelevant))
          
           if (headlinerelevant.TOPIC.relevant !== null) {
             let scores = null
+            
             //Root Comment
             if (edit.parent_id === null || edit.parent_id === undefined){
               scores = await getScore(
@@ -84,10 +83,10 @@ const hooks = {
                 null
               );
             }
-            // Can only be executed by ADMIN role, or user marks comment from Client code
-             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-              MarkAsOffTopic(edit)
-             }
+          // Can only be executed by ADMIN role, or user marks comment from Client code
+          //    if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+          //    MarkAsOffTopic(edit)
+          //   }
            
              if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
               handlePositiveToxic(edit)
@@ -131,12 +130,12 @@ const hooks = {
               );
             }
 
-        //    console.log("Got scores for Now: "+JSON.stringify(scores))
-        //    console.log("Got input for Now: "+JSON.stringify(input))
+            console.log("Got scores for Now: "+JSON.stringify(scores))
+            console.log("Got input for Now: "+JSON.stringify(input))
           // Can only be executed by ADMIN role, or user marks comment from Client code
-           if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
-              MarkAsOffTopic(input)
-           } 
+          // if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+          //    MarkAsOffTopic(input)
+          // } 
 
              if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
               
