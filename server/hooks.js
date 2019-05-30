@@ -22,21 +22,18 @@ function handlePositiveToxic(input) {
   });
 }
 
-function hidePositiveToxic(input) {
-  input.status = "PREMOD";
-  input.actions =
-  input.actions && input.actions.length >= 0 ? input.actions : [];
-  input.actions.push({
-    action_type: "FLAG",
-    user_id: null,
-    group_id: "TOXIC_COMMENT",
-    metadata: {}
-  });
-}
-
 function MarkAsOffTopic(input) {
   input.tags =  input.tags && input.tags.length >= 0 ? input.tags : [];
-  input.tags.push("OFF_TOPIC")
+  input.tags.push({
+    name: "OFF_TOPIC",
+    permissions: {
+      public: true,
+      self: true,
+      roles: []
+    },
+    models: ["COMMENTS"],
+    created_at: new Date()
+  })
 }
 
 async function getScore(body, relevant) {
@@ -77,22 +74,29 @@ const hooks = {
        const asset = await _context.loaders.Assets.getByID.load(edit.asset_id);
         if (asset) {
           const headlinerelevant = await getScoreOfHeadline(asset.title);
+          
           console.log('headline: '+JSON.stringify(headlinerelevant))
+         
           if (headlinerelevant.TOPIC.relevant !== null) {
             let scores = null
-            if (edit.parent === null){
+
+            if (edit.parent_id === null && edit.parent_id === undefined){
               scores = await getScore(
               body,
               headlinerelevant.TOPIC.relevant
             );
             }
-            else {
+            else if (edit.parent_id !== null || edit.parent_id !== undefined ) {
               scores = await getScore(
                 body,
                 null
               );
             }
-            ////INSERT HERE IN CASE
+
+             if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
+              MarkAsOffTopic(edit)
+             }
+           
              if (isToxic(scores) && scores.TOXICITY.AbuseLevel === 2) {
               handlePositiveToxic(edit)
               throw new ErrToxic2();
@@ -120,20 +124,24 @@ const hooks = {
           if (headlinerelevant.TOPIC.relevant !== null) {
             //Then go ahead and analyse the Comment
             let scores = null
-            if (input.parent === null){
+            
+            
+            if (input.parent_id === null && input.parent_id === undefined){
               scores = await getScore(
-              input.body,
+              body,
               headlinerelevant.TOPIC.relevant
             );
             }
-            else {
+            else if (input.parent_id !== null || input.parent_id !== undefined ) {
               scores = await getScore(
-                input.body,
+                body,
                 null
               );
             }
+
             console.log("Got scores for Now: "+JSON.stringify(scores))
             console.log("Got input for Now: "+JSON.stringify(input))
+
            if (scores.TOXICITY.SignaltoNoise && (scores.TOXICITY.SignaltoNoise < TALK_TISANE_MINIMUM_SIGNAL2NOISE)){
               MarkAsOffTopic(input)
            }
