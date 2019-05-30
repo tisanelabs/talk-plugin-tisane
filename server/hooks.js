@@ -119,13 +119,13 @@ const hooks = {
             
             if (input.parent_id === null && input.parent_id === undefined){
               scores = await getScore(
-              body,
+              input.body,
               headlinerelevant.TOPIC.relevant
             );
             }
             else if (input.parent_id !== null || input.parent_id !== undefined ) {
               scores = await getScore(
-                body,
+                input.body,
                 null
               );
             }
