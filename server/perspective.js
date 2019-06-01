@@ -8,17 +8,14 @@ const {
   TALK_TISANE_MIN_BLOCKED_LEVEL,
   TALK_TISANE_ALLOW_PROFANITY,
   TALK_TISANE_ALLOW_SEXUAL_ADVANCES,
-  TALK_TISANE_DOMAIN_FACTORS,
   TALK_TISANE_KEYWORD_FEATURES,
   TALK_TISANE_STOP_HYPERNYMS,
-  TALK_TISANE_MINIMUM_SIGNAL2NOISE,
   TALK_TISANE_ALLOWED_ABUSE,
   TALK_TISANE_BANNED_ABUSE
 } = require('./config');
 
 const debug = require('debug')('talk:plugin:toxic-tisane');
-const get = require('lodash/get');
-
+const min_block_level = { 'low': 0, 'default': 0, 'medium': 1, 'high':2, 'extreme': 3 }
 //cd plugins/talk-plugin-toxic-tisane
 //sudo nano server/perspective.js
 
@@ -56,6 +53,7 @@ async function getScores(text, relevant) {
   let severity = 0 //Normal level
   let allowed = []
   let banned = []
+  let minSeverity = []
   // Send the comment off to be analyzed.
   let data = null
   if (relevant !== null){
@@ -70,6 +68,9 @@ async function getScores(text, relevant) {
       "words":false, 
       "deterministic":true, 
       "format":"dialogue",
+      "sexual_advances":TALK_TISANE_ALLOW_SEXUAL_ADVANCES,
+      "profanity":TALK_TISANE_ALLOW_PROFANITY,
+      "doNotStore":TALK_TISANE_DO_NOT_STORE,
       "relevant": relevant
     }
   });
@@ -84,7 +85,10 @@ else{
       "parses": false,
       "sentiment":false, 
       "words":false, 
-      "deterministic":true, 
+      "deterministic":true,
+      "sexual_advances":TALK_TISANE_ALLOW_SEXUAL_ADVANCES,
+      "profanity":TALK_TISANE_ALLOW_PROFANITY,
+      "doNotStore":TALK_TISANE_DO_NOT_STORE, 
       "format":"dialogue"
     }
   });
@@ -104,9 +108,12 @@ else{
   console.log("Get  Score for Text Success: "+ JSON.stringify(data))
   
   if(data.abuse){
-  allowed = findAllowedToxic(data.abuse)
+  
+  minSeverity = minimumAllowedSeverity(data.abuse)
+  
+  allowed = findAllowedToxic(minSeverity)
 
-  banned = findBannedToxic(data.abuse)
+  banned = findBannedToxic(minSeverity)
 
   if (banned.length > 0){
     severity = 2
@@ -177,7 +184,7 @@ async function getScoresAbtTitle(title) {
 /**
  * findAllowedToxic determines if given text context is toxic and LOads only Allowed Types 
  *
- * @param  {array}  AbuseList of Toxicity array
+ * @param  {array}  AbuseList of tisane array
  * 
  * @return {boolean}
  */
@@ -199,7 +206,7 @@ function findAllowedToxic(toxicarray) {
 /**
  * findBannedToxic determines if given text context is toxic and LOads only Allowed Types 
  *
- * @param  {array}  AbuseList of Toxicity array
+ * @param  {array}  AbuseList of tisane array
  * 
  * @return {boolean}
  */
@@ -216,6 +223,46 @@ function findBannedToxic(toxicarray) {
     }
   })
   return abusetemp
+}
+
+/**
+ * minimumAllowedSeverity determines the minimum level to start to raise an Alarm 
+ *
+ * @param  {array}  AbuseList of tisane array
+ * 
+ * @return {boolean}
+ */
+function minimumAllowedSeverity(toxicarray) {
+  //empty abuse set
+  let temp = []
+
+  switch (TALK_TISANE_MIN_BLOCKED_LEVEL) {
+    case 'medium':
+      for (let ab of toxicarray) {
+        if (ab.severity === "medium" || ab.severity === "high" || ab.severity === "extreme"){
+          temp.push(ab)
+          }
+      }
+     break;
+    case 'high':
+      for (let ab of toxicarray) {
+        if (ab.severity === "high" || ab.severity === "extreme"){
+          temp.push(ab)
+          }
+      }
+      break;
+    case 'extreme':
+      for (let ab of toxicarray) {
+          if (ab.severity === "extreme"){
+            temp.push(ab)
+            }
+      }
+      break;
+    default: 
+     temp = toxicarray
+  }
+  return temp
+
 }
 
 /**
