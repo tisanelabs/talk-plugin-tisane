@@ -15,7 +15,7 @@ const {
 } = require('./config');
 
 const debug = require('debug')('talk:plugin:toxic-tisane');
-const min_block_level = { 'low': 0, 'default': 0, 'medium': 1, 'high':2, 'extreme': 3 }
+//const min_block_level = { 'low': 0, 'default': 0, 'medium': 1, 'high':2, 'extreme': 3 }
 //cd plugins/talk-plugin-toxic-tisane
 //sudo nano server/perspective.js
 
