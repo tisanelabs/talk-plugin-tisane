@@ -1,10 +1,11 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 const {
   API_ENDPOINT,
   TALK_TISANE_API_KEY,
   TALK_TISANE_LANGUAGE_CODE,
   API_TIMEOUT,
   TALK_TISANE_DO_NOT_STORE,
+  TALK_TISANE_DOMAIN_FACTORS,
   TALK_TISANE_MIN_BLOCKED_LEVEL,
   TALK_TISANE_ALLOW_PROFANITY,
   TALK_TISANE_ALLOW_SEXUAL_ADVANCES,
@@ -12,23 +13,22 @@ const {
   TALK_TISANE_STOP_HYPERNYMS,
   TALK_TISANE_ALLOWED_ABUSE,
   TALK_TISANE_BANNED_ABUSE
-} = require('./config');
+} = require("./config");
 
-const debug = require('debug')('talk:plugin:toxic-tisane');
-//const min_block_level = { 'low': 0, 'default': 0, 'medium': 1, 'high':2, 'extreme': 3 }
+const debug = require("debug")("talk:plugin:toxic-tisane");
 //cd plugins/talk-plugin-toxic-tisane
 //sudo nano server/perspective.js
 
 async function send(body) {
   // Perform the fetch.
   const res = await fetch(`${API_ENDPOINT}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Ocp-Apim-Subscription-Key': TALK_TISANE_API_KEY
+      "Content-Type": "application/json",
+      "Ocp-Apim-Subscription-Key": TALK_TISANE_API_KEY
     },
     timeout: API_TIMEOUT,
-    body: JSON.stringify(body),
+    body: JSON.stringify(body)
   });
 
   if (!res.ok) {
@@ -46,57 +46,54 @@ async function send(body) {
  * Get response from the Tisane api
  *
  * @param  {string}  text  text to be analyzed
- * @return {object}        object containing analysis of text using 
+ * @return {object}        object containing analysis of text using
  */
 async function getScores(text, relevant) {
-  debug('Sending to Tisane: %o', text);
-  let severity = 0 //Normal level
-  let allowed = []
-  let banned = []
-  let minSeverity = []
+  debug("Sending to Tisane: %o", text);
+  let severity = 0; //Normal level
+  let allowed = [];
+  let banned = [];
+  let minSeverity = [];
   // Send the comment off to be analyzed.
-  let data = null
-  if (relevant !== null){
-   console.log("Relevant is activated: ")
-   data = await send({
-    content: text,
-    // TODO: support other languages.
-    language: TALK_TISANE_LANGUAGE_CODE,
-    settings: {
-      "parses": false,
-      "sentiment":false, 
-      "words":false, 
-      "deterministic":true, 
-      "format":"dialogue",
-      "sexual_advances":TALK_TISANE_ALLOW_SEXUAL_ADVANCES,
-      "profanity":TALK_TISANE_ALLOW_PROFANITY,
-      "doNotStore":TALK_TISANE_DO_NOT_STORE,
-      "relevant": relevant
-    }
-  });
-}
-else{
-   console.log("Relevant is not used At all ")
-   data = await send({
-    content: text,
-    // TODO: support other languages.
-    language: TALK_TISANE_LANGUAGE_CODE,
-    settings: {
-      "parses": false,
-      "sentiment":false, 
-      "words":false, 
-      "deterministic":true,
-      "sexual_advances":TALK_TISANE_ALLOW_SEXUAL_ADVANCES,
-      "profanity":TALK_TISANE_ALLOW_PROFANITY,
-      "doNotStore":TALK_TISANE_DO_NOT_STORE, 
-      "format":"dialogue"
-    }
-  });
-}
+  let data = null;
+  if (relevant !== null) {
+    console.log("Relevant is activated: ");
+    data = await send({
+      content: text,
+      // TODO: support other languages.
+      language: TALK_TISANE_LANGUAGE_CODE,
+      doNotStore: TALK_TISANE_DO_NOT_STORE,
+      settings: {
+        parses: false,
+        sentiment: false,
+        words: false,
+        deterministic: true,
+        format: "dialogue",
+        domain_factors: TALK_TISANE_DOMAIN_FACTORS[0],
+        relevant: relevant
+      }
+    });
+  } else {
+    console.log("Relevant is not used At all ");
+    data = await send({
+      content: text,
+      // TODO: support other languages.
+      language: TALK_TISANE_LANGUAGE_CODE,
+      doNotStore: TALK_TISANE_DO_NOT_STORE,
+      settings: {
+        parses: false,
+        sentiment: false,
+        words: false,
+        deterministic: true,
+        format: "dialogue",
+        domain_factors: TALK_TISANE_DOMAIN_FACTORS[0]
+      }
+    });
+  }
 
   if (!data || data.error) {
-    debug('Received Error when submitting: %o', data.error);
-    console.log("Get Score for Text Error: "+ data.error)
+    debug("Received Error when submitting: %o", data.error);
+    console.log("Get Score for Text Error: " + data.error);
     return {
       TOXICITY: {
         AbuseList: null,
@@ -105,30 +102,27 @@ else{
     };
   }
 
-  console.log("Get  Score for Text Success: "+ JSON.stringify(data))
-  
-  if(data.abuse){
-  
-  minSeverity = minimumAllowedSeverity(data.abuse)
-  
-  allowed = findAllowedToxic(minSeverity)
+  console.log("Get Score for Text Success: " + JSON.stringify(data));
 
-  banned = findBannedToxic(minSeverity)
+  if (data.abuse) {
+    minSeverity = minimumAllowedSeverity(data.abuse);
 
-  if (banned.length > 0){
-    severity = 2
-    console.log("Severity Level is: "+ severity)
+    allowed = findAllowedToxic(minSeverity);
+
+    banned = findBannedToxic(minSeverity);
+
+    if (banned.length > 0) {
+      severity = 2;
+      console.log("Severity Level is: " + severity);
+    } else if (allowed.length > 0) {
+      severity = 1;
+      console.log("Severity Level is: " + severity);
+    } else {
+      severity = 0;
+      console.log("Severity Level is: " + severity);
+    }
   }
-  else if (allowed.length > 0 ){
-    severity = 1
-    console.log("Severity Level is: "+ severity)
-  }
-  else {
-    severity = 0
-    console.log("Severity Level is: "+ severity)
-  }
-}
-// 
+  //
   return {
     TOXICITY: {
       AbuseLevel: severity,
@@ -141,29 +135,29 @@ else{
  * Get response from the Tisane api about the Headline
  *
  * @param  {string}  title  text to be analyzed
- * @return {object}        object containing analysis of text using 
+ * @return {object}        object containing analysis of text using
  */
 async function getScoresAbtTitle(title) {
-  debug('Sending Headline to Tisane: %o', title);
+  debug("Sending Headline to Tisane: %o", title);
   // Send the comment off to be analyzed.
   const data = await send({
     content: title,
     // TODO: support other languages.
     language: TALK_TISANE_LANGUAGE_CODE,
     settings: {
-      "parses": false,
-      "sentiment":false, 
-      "words":false, 
-      "deterministic":true, 
-      "format":"dialogue",
-      "keyword_features": TALK_TISANE_KEYWORD_FEATURES[0], 
-      "stop_hypernyms": TALK_TISANE_STOP_HYPERNYMS
+      parses: false,
+      sentiment: false,
+      words: false,
+      deterministic: true,
+      format: "dialogue",
+      keyword_features: TALK_TISANE_KEYWORD_FEATURES[0],
+      stop_hypernyms: TALK_TISANE_STOP_HYPERNYMS
     }
   });
 
   if (!data || data.error) {
-    debug('Received Error when submitting: %o', data.error);
-    console.log("Get Headline Error: "+ data.error)
+    debug("Received Error when submitting: %o", data.error);
+    console.log("Get Headline Error: " + data.error);
     return {
       TOPIC: {
         relevant: null
@@ -171,8 +165,8 @@ async function getScoresAbtTitle(title) {
     };
   }
 
-  console.log("Get Headline Success: "+ JSON.stringify(data))
-  
+  console.log("Get Headline Success: " + JSON.stringify(data));
+
   return {
     TOPIC: {
       relevant: data.relevant
@@ -180,89 +174,139 @@ async function getScoresAbtTitle(title) {
   };
 }
 
-
 /**
- * findAllowedToxic determines if given text context is toxic and LOads only Allowed Types 
+ * findAllowedToxic determines if given text context is toxic and LOads only Allowed Types
  *
  * @param  {array}  AbuseList of tisane array
- * 
+ *
  * @return {boolean}
  */
 function findAllowedToxic(toxicarray) {
   //empty abuse set
-  let abusetemp = []
+  let abusetemp = [];
 
   //Find toxic allowed
-  TALK_TISANE_ALLOWED_ABUSE.forEach(function (item, index) {
+  TALK_TISANE_ALLOWED_ABUSE.forEach(function(item, index) {
     for (let ab of toxicarray) {
-      if (ab.type === item){
-        abusetemp.push(ab)
-        }
+      if (ab.type === item) {
+        abusetemp.push(ab);
+      }
     }
-  })
-  return abusetemp
+  });
+  return abusetemp;
 }
 
 /**
- * findBannedToxic determines if given text context is toxic and LOads only Allowed Types 
+ * findBannedToxic determines if given text context is toxic and LOads only Allowed Types
  *
  * @param  {array}  AbuseList of tisane array
- * 
+ *
  * @return {boolean}
  */
 function findBannedToxic(toxicarray) {
   //empty abuse set
-  let abusetemp = []
+  let abusetemp = [];
 
   //Find toxic banned
-  TALK_TISANE_BANNED_ABUSE.forEach(function (item, index) {
+  TALK_TISANE_BANNED_ABUSE.forEach(function(item, index) {
     for (let ab of toxicarray) {
-      if (ab.type === item){
-        abusetemp.push(ab)
-        }
+      if (ab.type === item) {
+        abusetemp.push(ab);
+      }
     }
-  })
-  return abusetemp
+  });
+  return abusetemp;
 }
 
 /**
- * minimumAllowedSeverity determines the minimum level to start to raise an Alarm 
+ * minimumAllowedSeverity determines the minimum level to start to raise an Alarm
  *
  * @param  {array}  AbuseList of tisane array
- * 
+ *
  * @return {boolean}
  */
 function minimumAllowedSeverity(toxicarray) {
   //empty abuse set
-  let temp = []
+  let temp = [];
 
   switch (TALK_TISANE_MIN_BLOCKED_LEVEL) {
-    case 'medium':
+    case "medium":
       for (let ab of toxicarray) {
-        if (ab.severity === "medium" || ab.severity === "high" || ab.severity === "extreme"){
-          temp.push(ab)
+        if (
+          ab.severity === "medium" ||
+          ab.severity === "high" ||
+          ab.severity === "extreme"
+        ) {
+          if (
+            ab.type === "sexual_advances" &&
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
           }
-      }
-     break;
-    case 'high':
-      for (let ab of toxicarray) {
-        if (ab.severity === "high" || ab.severity === "extreme"){
-          temp.push(ab)
-          }
-      }
-      break;
-    case 'extreme':
-      for (let ab of toxicarray) {
-          if (ab.severity === "extreme"){
-            temp.push(ab)
-            }
-      }
-      break;
-    default: 
-     temp = toxicarray
-  }
-  return temp
 
+          if (
+            ab.type === "profanity" &&
+            TALK_TISANE_ALLOW_PROFANITY === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+        }
+      }
+      break;
+    case "high":
+      for (let ab of toxicarray) {
+        if (ab.severity === "high" || ab.severity === "extreme") {
+          if (
+            ab.type === "sexual_advances" &&
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+
+          if (
+            ab.type === "profanity" &&
+            TALK_TISANE_ALLOW_PROFANITY === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+        }
+      }
+      break;
+    case "extreme":
+      for (let ab of toxicarray) {
+        if (ab.severity === "extreme") {
+          if (
+            ab.type === "sexual_advances" &&
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+
+          if (
+            ab.type === "profanity" &&
+            TALK_TISANE_ALLOW_PROFANITY === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+        }
+      }
+      break;
+    default:
+      temp = toxicarray;
+  }
+  return temp;
 }
 
 /**
@@ -273,9 +317,8 @@ function minimumAllowedSeverity(toxicarray) {
  * @return {boolean}
  */
 function isToxic(level) {
-
-  var severity = level.TOXICITY.AbuseLevel
-  return severity > 0
+  var severity = level.TOXICITY.AbuseLevel;
+  return severity > 0;
 }
 
 /**
@@ -285,7 +328,7 @@ function isToxic(level) {
  */
 function wrapError(err) {
   if (err.message) {
-    err.message = err.message.replace(TALK_TISANE_API_KEY, '***');
+    err.message = err.message.replace(TALK_TISANE_API_KEY, "***");
   }
 
   return err;
@@ -307,8 +350,6 @@ function maskKeyInError(fn) {
     }
   };
 }
-
-
 
 module.exports = {
   getScores: maskKeyInError(getScores),
