@@ -103,6 +103,8 @@ async function getScores(text, relevant) {
   }
 
   console.log("Get Score for Text Success: " + JSON.stringify(data));
+  console.log("Allowed Sexual: " + TALK_TISANE_ALLOW_SEXUAL_ADVANCES);
+  console.log("Allowed Profanity: " + TALK_TISANE_ALLOW_PROFANITY);
 
   if (data.abuse) {
     minSeverity = minimumAllowedSeverity(data.abuse);
@@ -256,6 +258,7 @@ function minimumAllowedSeverity(toxicarray) {
           }
         }
       }
+      console.log(" Medium , High & Extreme array is returned back")
       break;
     case "high":
       for (let ab of toxicarray) {
@@ -279,6 +282,7 @@ function minimumAllowedSeverity(toxicarray) {
           }
         }
       }
+      console.log(" Extreme & High array is returned back")
       break;
     case "extreme":
       for (let ab of toxicarray) {
@@ -302,9 +306,11 @@ function minimumAllowedSeverity(toxicarray) {
           }
         }
       }
+      console.log(" Extreme array is returned back")
       break;
     default:
       temp = toxicarray;
+      console.log("Default array is returned back")
   }
   return temp;
 }
