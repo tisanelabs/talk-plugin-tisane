@@ -232,6 +232,35 @@ function minimumAllowedSeverity(toxicarray) {
   let temp = [];
 
   switch (TALK_TISANE_MIN_BLOCKED_LEVEL) {
+    case "low":
+      for (let ab of toxicarray) {
+        if (
+          ab.severity === "low" ||
+          ab.severity === "medium" ||
+          ab.severity === "high" ||
+          ab.severity === "extreme"
+        ) {
+          if (
+            ab.type === "sexual_advances" &&
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+
+          if (
+            ab.type === "profanity" &&
+            TALK_TISANE_ALLOW_PROFANITY === false
+          ) {
+            temp.push(ab);
+          } else {
+            continue;
+          }
+        }
+      }
+      console.log(" Low, Medium , High & Extreme array is returned back")
+      break;
     case "medium":
       for (let ab of toxicarray) {
         if (
