@@ -64,13 +64,13 @@ async function getScores(text, relevant) {
       language: TALK_TISANE_LANGUAGE_CODE,
       doNotStore: TALK_TISANE_DO_NOT_STORE,
       settings: {
-        parses: false,
-        sentiment: false,
-        words: false,
-        deterministic: true,
-        format: "dialogue",
-        domain_factors: TALK_TISANE_DOMAIN_FACTORS[0],
-        relevant: relevant
+        "parses": false,
+        "sentiment": false,
+        "words": false,
+        "deterministic": true,
+        "format": "dialogue",
+        "domain_factors": TALK_TISANE_DOMAIN_FACTORS[0],
+        "relevant": relevant
       }
     });
   } else {
@@ -81,12 +81,12 @@ async function getScores(text, relevant) {
       language: TALK_TISANE_LANGUAGE_CODE,
       doNotStore: TALK_TISANE_DO_NOT_STORE,
       settings: {
-        parses: false,
-        sentiment: false,
-        words: false,
-        deterministic: true,
-        format: "dialogue",
-        domain_factors: TALK_TISANE_DOMAIN_FACTORS[0]
+        "parses": false,
+        "sentiment": false,
+        "words": false,
+        "deterministic": true,
+        "format": "dialogue",
+        "domain_factors": TALK_TISANE_DOMAIN_FACTORS[0]
       }
     });
   }
@@ -145,13 +145,13 @@ async function getScoresAbtTitle(title) {
     // TODO: support other languages.
     language: TALK_TISANE_LANGUAGE_CODE,
     settings: {
-      parses: false,
-      sentiment: false,
-      words: false,
-      deterministic: true,
-      format: "dialogue",
-      keyword_features: TALK_TISANE_KEYWORD_FEATURES[0],
-      stop_hypernyms: TALK_TISANE_STOP_HYPERNYMS
+      "parses": false,
+      "sentiment": false,
+      "words": false,
+      "deterministic": true,
+      "format": "dialogue",
+      "keyword_features": TALK_TISANE_KEYWORD_FEATURES[0],
+      "stop_hypernyms": TALK_TISANE_STOP_HYPERNYMS
     }
   });
 
