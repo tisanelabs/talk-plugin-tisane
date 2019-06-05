@@ -34,7 +34,7 @@ function markAsOffTopic(input) {
   });
 }
 
-async function handleComment(comment, body, isEditing) {
+async function handleComment(_context, comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
     const article = await _context.loaders.Assets.getByID.load(comment.asset_id);
@@ -67,12 +67,12 @@ const hooks = {
   RootMutation: {
     editComment: {
       pre: async (_, { edit: { body }, edit }, _context) => {
-        handleComment(edit, body, true);        
+        handleComment(_context, edit, body, true);        
       }
     },
     createComment: {
       async pre(_, { input }, _context, _info) {
-        handleComment(input, input.body, false);     
+        handleComment(_context, input, input.body, false);     
       }
     }
   }
