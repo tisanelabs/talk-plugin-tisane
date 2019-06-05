@@ -72,7 +72,7 @@ const hooks = {
     },
     createComment: {
       async pre(_, { input }, _context, _info) {
-        handleComment(input, body, false);     
+        handleComment(input, input.body, false);     
       }
     }
   }
