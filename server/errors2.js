@@ -5,9 +5,9 @@ const { TalkError } = require('errors');
 // toxic language as determined by the perspective service.
 class ErrToxic2 extends TalkError {
   constructor() {
-    super('Your Comment is toxic to the Community, please rethink this Statement and Consider changing it', {
+    super('The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.', {
       status: 400,
-      translation_key: 'Please this Comment Contains Criminal/Spammy Content & has been removed.',
+      translation_key: 'STRAIGHT_TO_MODERATION',
     });
   }
 }

@@ -24,7 +24,13 @@ function handlePositiveToxic(input) {
 //not used for now due to conflict on what to do next
 function MarkAsOffTopic(input) {
   input.tags =  input.tags && input.tags.length >= 0 ? input.tags : [];
-  input.tags.push("OFF_TOPIC")
+  //input.tags.push("OFF_TOPIC")
+  input.actions.push({
+    action_type: "FLAG",
+    user_id: null,
+    group_id: "OFF_TOPIC",
+    metadata: {}
+  });
 }
 
 async function getScore(body, relevant) {

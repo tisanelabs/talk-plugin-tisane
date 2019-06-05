@@ -2,6 +2,8 @@ ar:
   error:
     COMMENT_IS_TOXIC: |
       هل أنت واثق؟ قد تنتهك اللغة الواردة في هذا التعليق إرشادات المجموعة. يمكنك تعديل التعليق أو إرساله لمراجعته.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "من غير المرجح"
     highly_likely: "من المرجح جدا"
@@ -19,6 +21,8 @@ da:
     COMMENT_IS_TOXIC: |
       Are you sure? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
@@ -37,6 +41,8 @@ de:
     COMMENT_IS_TOXIC: |
       Sind Sie sicher? Die Formulierungen in Ihrem Kommentar könnten den Community-Richtlinien widersprechen.
       Sie können ihren Kommentar bearbeiten oder zur Prüfung durch unsere Moderatoren einreichen.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: Unwahrscheinlich
     highly_likely: Höchstwahrscheinlich
@@ -55,8 +61,8 @@ en:
     COMMENT_IS_TOXIC: |
       Are you sure you want to post this? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
-    COMMENT_IS_MOD: |
-      This comment has some Spammy or Criminal intentions and has been Reported.  
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Unlikely"
     highly_likely: "Highly Likely, Contains Criminal/Spammy content"
@@ -75,6 +81,8 @@ es:
     COMMENT_IS_TOXIC: |
       ¿Estás seguro? El lenguaje en este comentario puede violar nuestras pautas de la comunidad. 
       Puede editar el comentario o enviarlo para la revisión del moderador.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Improbable"
     highly_likely: "Altamente Probable"
@@ -93,6 +101,8 @@ fr:
     COMMENT_IS_TOXIC: |
       Are you sure? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
@@ -110,6 +120,8 @@ he:
   error:
     COMMENT_IS_TOXIC: |
       האם אתה בטוח? השפה שבתגובה זו עלולה להפר את הנחיות הקהילה שלנו. תוכל לערוך את ההערה או לשלוח אותה לביקורת של המתווך.
+    STRAIGHT_TO_MODERATION: |
+      ההערה תישלח לביקורת של המתווך ותפורסם רק אם אחרי הבדיקה
   talk-plugin-toxic-tisane:
     unlikely: "לא סביר"
     highly_likely: "סביר מאוד"
@@ -127,6 +139,8 @@ it:
     COMMENT_IS_TOXIC: |
       Sei sicuro? Il linguaggio in questo commento potrebbe violare le linee guida della community
       Puoi modificare questo commento o sottoporlo alla revisione del moderatore
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Improbabile"
     highly_likely: "Estremamente probabile"
@@ -145,6 +159,8 @@ nl_NL:
     COMMENT_IS_TOXIC: |
       Weet je het zeker? Het taalgebruik in deze reactie kan de community richtlijnen schenden.
       Je kan je reactie wijzigen of je reactie indienen zodat ons moderatieteam het kan beoordelen.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Onwaarschijnlijk"
     highly_likely: "Heel waarschijnlijk"
@@ -163,6 +179,8 @@ pt_BR:
     COMMENT_IS_TOXIC: |
       Are you sure? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
@@ -181,6 +199,8 @@ sr:
     COMMENT_IS_TOXIC: |
       Da li ste sigurni? Jezik u ovom komentaru može narušavati naša pravila diskusije.
       Pregledajte komentar, ili ga svejdno pošaljite moderatoru na odobrenje.
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "Malo verovatno"
     highly_likely: "Vrlo verovatno"
@@ -197,6 +217,8 @@ sr:
 zh_CN:
   error:
     COMMENT_IS_TOXIC: "您确定吗？此评论的表述可能违反了我们的社群指引方针。您可以编辑评论，或直接提交让管理人员审查。"
+    STRAIGHT_TO_MODERATION: |
+      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
     unlikely: "极低可能"
     highly_likely: "极高可能"
