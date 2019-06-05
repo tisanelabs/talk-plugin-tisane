@@ -1,9 +1,8 @@
 const {
   analyseComment,
-  isToxic,
   findRelevantFamilies
 } = require("./perspective");
-const { TALK_TISANE_MINIMUM_SIGNAL2NOISE } = require('./config');
+
 const { ErrToxic } = require("./errors");
 const { ImmediateReportError } = require("./errors2");
 
@@ -43,7 +42,7 @@ async function handleComment(_context, comment, body, isEditing) {
   }
   result = await analyseComment(body, relevantFamilies);
   if (result.report) {
-    handlePositiveToxic(comment)
+    handlePositiveToxic(comment);
     if (comment.checkToxicity)
       throw new ImmediateReportError();
   }

@@ -57,10 +57,7 @@ function severityGradeToNumber(severity) {
  */
 async function analyseComment(text, relevant) {
   debug("Sending to Tisane: %o", text);
-  let severity = 0; //Normal level
-  let allowed = [];
-  let banned = [];
-  let minSeverity = [];
+
   // Send the comment off to be analyzed.
   let data = null;
   data = await send({
@@ -86,9 +83,9 @@ async function analyseComment(text, relevant) {
     };
   }
 
-  console.log("Get Score for Text Success: " + JSON.stringify(data));
-  console.log("Allowed Sexual: " + TALK_TISANE_ALLOW_SEXUAL_ADVANCES);
-  console.log("Allowed Profanity: " + TALK_TISANE_ALLOW_PROFANITY);
+  console.log("Tisane response: " + JSON.stringify(data));
+  console.log("Sexual advances allowed: " + TALK_TISANE_ALLOW_SEXUAL_ADVANCES);
+  console.log("Profanity allowed: " + TALK_TISANE_ALLOW_PROFANITY);
 
   const minBlockedAbuseSeverityLevel = severityGradeToNumber(TALK_TISANE_MIN_BLOCKED_LEVEL);
   let filteredAbuseInstances = [];
