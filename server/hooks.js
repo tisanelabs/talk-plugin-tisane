@@ -39,7 +39,7 @@ async function handleComment(_context, comment, body, isEditing) {
   if (!comment.parent_id) {
     const article = await _context.loaders.Assets.getByID.load(comment.asset_id);
     if (article)
-      relevantFamilies = await findRelevantFamilies(asset.title);
+      relevantFamilies = await findRelevantFamilies(article.title);
   }
   result = await analyseComment(body, relevantFamilies);
   if (result.report) {
