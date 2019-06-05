@@ -48,7 +48,7 @@ async function handleComment(_context, comment, body, isEditing) {
   }
 
   if (result.abuse && result.abuse.length > 0) {
-    handlePositiveToxic(input);
+    handlePositiveToxic(comment);
     throw new ErrToxic();
   }
 
