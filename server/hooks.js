@@ -58,7 +58,7 @@ async function handleComment(_context, comment, body, isEditing) {
     markAsOffTopic(comment);
   }
            
-  input.metadata = Object.assign({}, input.metadata, {
+  comment.metadata = Object.assign({}, comment.metadata, {
     tisane: result
   });
  
