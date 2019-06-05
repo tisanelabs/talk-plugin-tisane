@@ -8,6 +8,7 @@ const ProfanityLabel = () => <FlagLabel iconName="error">Profanity</FlagLabel>;
 const CriminalActivityLabel = () => <FlagLabel iconName="error">Criminal Activity</FlagLabel>;
 const ExternalContactLabel = () => <FlagLabel iconName="error">External Contact</FlagLabel>;
 const LowRelevanceLabel = () => <FlagLabel iconName="error">Low Relevance</FlagLabel>;
+const SpamLabel = () => <FlagLabel iconName="error">Spam</FlagLabel>;
 
 export default PersonalAttackLabel;
 export default HateSpeechLabel;
@@ -16,3 +17,4 @@ export default ProfanityLabel;
 export default CriminalActivityLabel;
 export default ExternalContactLabel;
 export default LowRelevanceLabel;
+export default SpamLabel;

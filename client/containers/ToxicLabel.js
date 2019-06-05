@@ -1,13 +1,13 @@
 import { compose, gql } from 'react-apollo';
 import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import {PersonalAttackLabel, HateSpeechLabel, SexualAdvancesLabel, ProfanityLabel, CriminalActivityLabel, 
-  ExternalContactLabel, LowRelevanceLabel} from '../components/TisaneLabel';
+  ExternalContactLabel, LowRelevanceLabel, SpamLabel} from '../components/TisaneLabel';
 import { isToxic } from '../utils';
 
 const enhance = compose(
   withFragments({
     comment: gql`
-      fragment TalkToxicComments_ToxicLabel_Comment on Comment {
+      fragment TalkToxicComments_TisaneLabel_Comment on Comment {
         actions {
           __typename
           ... on FlagAction {
@@ -27,3 +27,4 @@ export default enhance(ProfanityLabel);
 export default enhance(CriminalActivityLabel);
 export default enhance(ExternalContactLabel);
 export default enhance(LowRelevanceLabel);
+export default enhance(SpamLabel);
