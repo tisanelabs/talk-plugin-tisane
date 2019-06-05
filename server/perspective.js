@@ -242,20 +242,22 @@ function minimumAllowedSeverity(toxicarray) {
         ) {
           if (
             ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          }
+          
+          else {
+            temp.push(ab);
           }
 
           if (
             ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === false
+            TALK_TISANE_ALLOW_PROFANITY === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          } else {
+            temp.push(ab);
           }
         }
       }
@@ -270,20 +272,22 @@ function minimumAllowedSeverity(toxicarray) {
         ) {
           if (
             ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          }
+          
+          else {
+            temp.push(ab);
           }
 
           if (
             ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === false
+            TALK_TISANE_ALLOW_PROFANITY === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          } else {
+            temp.push(ab);
           }
         }
       }
@@ -294,20 +298,22 @@ function minimumAllowedSeverity(toxicarray) {
         if (ab.severity === "high" || ab.severity === "extreme") {
           if (
             ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          }
+          
+          else {
+            temp.push(ab);
           }
 
           if (
             ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === false
+            TALK_TISANE_ALLOW_PROFANITY === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          } else {
+            temp.push(ab);
           }
         }
       }
@@ -318,20 +324,22 @@ function minimumAllowedSeverity(toxicarray) {
         if (ab.severity === "extreme") {
           if (
             ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === false
+            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          }
+          
+          else {
+            temp.push(ab);
           }
 
           if (
             ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === false
+            TALK_TISANE_ALLOW_PROFANITY === true
           ) {
-            temp.push(ab);
-          } else {
             continue;
+          } else {
+            temp.push(ab);
           }
         }
       }
