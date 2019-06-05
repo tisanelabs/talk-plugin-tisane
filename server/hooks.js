@@ -44,12 +44,14 @@ async function handleComment(_context, comment, body, isEditing) {
   result = await analyseComment(body, relevantFamilies);
   if (result.report) {
     handlePositiveToxic(comment)
-    throw new ImmediateReportError();
+    if (comment.checkToxicity)
+      throw new ImmediateReportError();
   }
 
   if (result.abuse && result.abuse.length > 0) {
     handlePositiveToxic(comment);
-    throw new ErrToxic();
+    if (comment.checkToxicity)
+      throw new ErrToxic();
   }
 
   if (result.offtopic) {
