@@ -12,12 +12,10 @@ const {
   TALK_TISANE_KEYWORD_FEATURES,
   TALK_TISANE_STOP_HYPERNYMS,
   TALK_TISANE_ALLOWED_ABUSE,
-  TALK_TISANE_BANNED_ABUSE
+  TALK_TISANE_REPORT_IMMEDIATELY
 } = require("./config");
 
 const debug = require("debug")("talk:plugin:toxic-tisane");
-//cd plugins/talk-plugin-toxic-tisane
-//sudo nano server/perspective.js
 
 async function send(body) {
   // Perform the fetch.
@@ -42,13 +40,22 @@ async function send(body) {
   return data;
 }
 
+function severityGradeToNumber(severity) {
+  switch (severity) {
+    case "medium" : return 1;
+    case "high" : return 2;
+    case "extreme" : return 3;
+    default : return 0;
+  }
+}
+
 /**
- * Get response from the Tisane api
+ * Get response from the Tisane API
  *
  * @param  {string}  text  text to be analyzed
  * @return {object}        object containing analysis of text using
  */
-async function getScores(text, relevant) {
+async function analyseComment(text, relevant) {
   debug("Sending to Tisane: %o", text);
   let severity = 0; //Normal level
   let allowed = [];
@@ -56,95 +63,8 @@ async function getScores(text, relevant) {
   let minSeverity = [];
   // Send the comment off to be analyzed.
   let data = null;
-  if (relevant !== null) {
-    console.log("Relevant is activated: ");
-    data = await send({
-      content: text,
-      // TODO: support other languages.
-      language: TALK_TISANE_LANGUAGE_CODE,
-      doNotStore: TALK_TISANE_DO_NOT_STORE,
-      settings: {
-        "parses": false,
-        "sentiment": false,
-        "words": false,
-        "deterministic": true,
-        "format": "dialogue",
-        "domain_factors": TALK_TISANE_DOMAIN_FACTORS[0],
-        "relevant": relevant
-      }
-    });
-  } else {
-    console.log("Relevant is not used At all ");
-    data = await send({
-      content: text,
-      // TODO: support other languages.
-      language: TALK_TISANE_LANGUAGE_CODE,
-      doNotStore: TALK_TISANE_DO_NOT_STORE,
-      settings: {
-        "parses": false,
-        "sentiment": false,
-        "words": false,
-        "deterministic": true,
-        "format": "dialogue",
-        "domain_factors": TALK_TISANE_DOMAIN_FACTORS[0]
-      }
-    });
-  }
-
-  if (!data || data.error) {
-    debug("Received Error when submitting: %o", data.error);
-    console.log("Get Score for Text Error: " + data.error);
-    return {
-      TOXICITY: {
-        AbuseList: null,
-        SignaltoNoise: null
-      }
-    };
-  }
-
-  console.log("Get Score for Text Success: " + JSON.stringify(data));
-  console.log("Allowed Sexual: " + TALK_TISANE_ALLOW_SEXUAL_ADVANCES);
-  console.log("Allowed Profanity: " + TALK_TISANE_ALLOW_PROFANITY);
-
-  if (data.abuse) {
-    minSeverity = minimumAllowedSeverity(data.abuse);
-
-    allowed = findAllowedToxic(minSeverity);
-
-    banned = findBannedToxic(minSeverity);
-
-    if (banned.length > 0) {
-      severity = 2;
-      console.log("Severity Level is: " + severity);
-    } else if (allowed.length > 0) {
-      severity = 1;
-      console.log("Severity Level is: " + severity);
-    } else {
-      severity = 0;
-      console.log("Severity Level is: " + severity);
-    }
-  }
-  //
-  return {
-    TOXICITY: {
-      AbuseLevel: severity,
-      SignaltoNoise: data.signal2noise
-    }
-  };
-}
-
-/**
- * Get response from the Tisane api about the Headline
- *
- * @param  {string}  title  text to be analyzed
- * @return {object}        object containing analysis of text using
- */
-async function getScoresAbtTitle(title) {
-  debug("Sending Headline to Tisane: %o", title);
-  // Send the comment off to be analyzed.
-  const data = await send({
-    content: title,
-    // TODO: support other languages.
+  data = await send({
+    content: text,
     language: TALK_TISANE_LANGUAGE_CODE,
     settings: {
       "parses": false,
@@ -152,6 +72,74 @@ async function getScoresAbtTitle(title) {
       "words": false,
       "deterministic": true,
       "format": "dialogue",
+      "domain_factors": normalizeDomainFactors(),
+      "relevant": relevant ? relevant : null
+    }
+  });
+
+  if (!data || data.error) {
+    debug("Error when submitting: %o", data.error);
+    console.log("Get Score for Text Error: " + data.error);
+    return {
+      abuse: null,
+      signal2noise: null
+    };
+  }
+
+  console.log("Get Score for Text Success: " + JSON.stringify(data));
+  console.log("Allowed Sexual: " + TALK_TISANE_ALLOW_SEXUAL_ADVANCES);
+  console.log("Allowed Profanity: " + TALK_TISANE_ALLOW_PROFANITY);
+
+  const minBlockedAbuseSeverityLevel = severityGradeToNumber(TALK_TISANE_MIN_BLOCKED_LEVEL);
+  let filteredAbuseInstances = [];
+  let reportImmediately = false;
+  if (data.abuse) {
+    for (let abIn of data.abuse) {
+      let abuseType = abIn.type;
+      if (TALK_TISANE_ALLOW_PROFANITY && abuseType.type === 'profanity'
+          || TALK_TISANE_ALLOW_SEXUAL_ADVANCES && abuseType.type === 'sexual_advances')
+        continue;
+      if (TALK_TISANE_REPORT_IMMEDIATELY && TALK_TISANE_REPORT_IMMEDIATELY.indexOf(abIn.type) > -1) {
+        reportImmediately = true;
+      } else {
+        let level = severityGradeToNumber(abIn.severity);
+        if (level < minBlockedAbuseSeverityLevel) continue;
+      }
+      filteredAbuseInstances.push(abIn);
+    }
+  }
+  //
+  return {
+    abuse: filteredAbuseInstances,
+    report: reportImmediately,
+    signal2noise: data.signal2noise,
+    offtopic: data.signal2noise < TALK_TISANE_MINIMUM_SIGNAL2NOISE
+  };
+}
+
+function normalizeDomainFactors() {
+  return TALK_TISANE_DOMAIN_FACTORS ? TALK_TISANE_DOMAIN_FACTORS[0]: {};
+}
+
+/**
+ * Get response from the Tisane API about the Headline
+ *
+ * @param  {string}  title  text to be analyzed
+ * @return {object}        object containing analysis of text using
+ */
+async function findRelevantFamilies(title) {
+  debug("Sending Headline to Tisane: %o", title);
+  // Send the title to be analyzed.
+  const data = await send({
+    content: title,
+    language: TALK_TISANE_LANGUAGE_CODE,
+    settings: {
+      "parses": false,
+      "sentiment": false,
+      "words": false,
+      "deterministic": true,
+      "format": "dialogue",
+      "domain_factors": normalizeDomainFactors(),
       "keyword_features": TALK_TISANE_KEYWORD_FEATURES[0],
       "stop_hypernyms": TALK_TISANE_STOP_HYPERNYMS
     }
@@ -169,200 +157,9 @@ async function getScoresAbtTitle(title) {
 
   console.log("Get Headline Success: " + JSON.stringify(data));
 
-  return {
-    TOPIC: {
-      relevant: data.relevant
-    }
-  };
+  return data.relevant;
 }
 
-/**
- * findAllowedToxic determines if given text context is toxic and LOads only Allowed Types
- *
- * @param  {array}  AbuseList of tisane array
- *
- * @return {boolean}
- */
-function findAllowedToxic(toxicarray) {
-  //empty abuse set
-  let abusetemp = [];
-
-  //Find toxic allowed
-  TALK_TISANE_ALLOWED_ABUSE.forEach(function(item, index) {
-    for (let ab of toxicarray) {
-      if (ab.type === item) {
-        abusetemp.push(ab);
-      }
-    }
-  });
-  return abusetemp;
-}
-
-/**
- * findBannedToxic determines if given text context is toxic and LOads only Allowed Types
- *
- * @param  {array}  AbuseList of tisane array
- *
- * @return {boolean}
- */
-function findBannedToxic(toxicarray) {
-  //empty abuse set
-  let abusetemp = [];
-
-  //Find toxic banned
-  TALK_TISANE_BANNED_ABUSE.forEach(function(item, index) {
-    for (let ab of toxicarray) {
-      if (ab.type === item) {
-        abusetemp.push(ab);
-      }
-    }
-  });
-  return abusetemp;
-}
-
-/**
- * minimumAllowedSeverity determines the minimum level to start to raise an Alarm
- *
- * @param  {array}  AbuseList of tisane array
- *
- * @return {boolean}
- */
-function minimumAllowedSeverity(toxicarray) {
-  //empty abuse set
-  let temp = [];
-
-  switch (TALK_TISANE_MIN_BLOCKED_LEVEL) {
-    case "low":
-      for (let ab of toxicarray) {
-        if (
-          ab.severity === "low" ||
-          ab.severity === "medium" ||
-          ab.severity === "high" ||
-          ab.severity === "extreme"
-        ) {
-          if (
-            ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
-          ) {
-            continue;
-          }
-          
-          else {
-            temp.push(ab);
-          }
-
-          if (
-            ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === true
-          ) {
-            continue;
-          } else {
-            temp.push(ab);
-          }
-        }
-      }
-      console.log(" Low, Medium , High & Extreme array is returned back")
-      break;
-    case "medium":
-      for (let ab of toxicarray) {
-        if (
-          ab.severity === "medium" ||
-          ab.severity === "high" ||
-          ab.severity === "extreme"
-        ) {
-          if (
-            ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
-          ) {
-            continue;
-          }
-          
-          else {
-            temp.push(ab);
-          }
-
-          if (
-            ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === true
-          ) {
-            continue;
-          } else {
-            temp.push(ab);
-          }
-        }
-      }
-      console.log(" Medium , High & Extreme array is returned back")
-      break;
-    case "high":
-      for (let ab of toxicarray) {
-        if (ab.severity === "high" || ab.severity === "extreme") {
-          if (
-            ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
-          ) {
-            continue;
-          }
-          
-          else {
-            temp.push(ab);
-          }
-
-          if (
-            ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === true
-          ) {
-            continue;
-          } else {
-            temp.push(ab);
-          }
-        }
-      }
-      console.log(" Extreme & High array is returned back")
-      break;
-    case "extreme":
-      for (let ab of toxicarray) {
-        if (ab.severity === "extreme") {
-          if (
-            ab.type === "sexual_advances" &&
-            TALK_TISANE_ALLOW_SEXUAL_ADVANCES === true
-          ) {
-            continue;
-          }
-          
-          else {
-            temp.push(ab);
-          }
-
-          if (
-            ab.type === "profanity" &&
-            TALK_TISANE_ALLOW_PROFANITY === true
-          ) {
-            continue;
-          } else {
-            temp.push(ab);
-          }
-        }
-      }
-      console.log(" Extreme array is returned back")
-      break;
-    default:
-      temp = toxicarray;
-      console.log("Default array is returned back")
-  }
-  return temp;
-}
-
-/**
- * isToxic determines if given severity score is Toxic
- * threshold.
- *
- * @param  {number} severity score
- * @return {boolean}
- */
-function isToxic(level) {
-  var severity = level.TOXICITY.AbuseLevel;
-  return severity > 0;
-}
 
 /**
  * wrapError will mask API key in error messages.
@@ -395,7 +192,6 @@ function maskKeyInError(fn) {
 }
 
 module.exports = {
-  getScores: maskKeyInError(getScores),
-  isToxic,
-  getScoresAbtTitle: maskKeyInError(getScoresAbtTitle)
+  analyseComment: maskKeyInError(analyseComment),
+  findRelevantFamilies: maskKeyInError(findRelevantFamilies)
 };
