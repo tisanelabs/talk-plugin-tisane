@@ -34,21 +34,7 @@ function markAsOffTopic(input) {
   });
 }
 
-async function getScore(body, relevant) {
-  // Try getting scores.
-  let scores;
-  try {
-    scores = await analyseComment(body, relevant);
-  } catch (err) {
-    // Warn and let mutation pass.
-    debug("Error sending to API: %o", err);
-    return;
-  }
-
-  return scores;
-}
-
-function handleComment(comment, body, isEditing) {
+async function handleComment(comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
     const article = await _context.loaders.Assets.getByID.load(comment.asset_id);
