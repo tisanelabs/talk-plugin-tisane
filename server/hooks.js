@@ -61,7 +61,7 @@ async function handleComment(_context, comment, body, isEditing) {
   }
   
   try {
-    if (!isEditing) {
+    if (!isEditing && (result.offtopic || result.abuse && result.abuse.length > 0)) {
       console.log("Assigning metadata");
       comment.metadata = Object.assign({}, comment.metadata, {
         tisane: result
