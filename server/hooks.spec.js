@@ -6,11 +6,9 @@ jest.mock('./perspective');
 
 describe('talk-plugin-toxic-comments', () => {
   describe('hooks', () => {
-    /*
     beforeEach(() => {
-      require('./perspective').setValues({ isToxic: true });
+      require('./perspective').setValues({ isToxic: false });
     });
-    */
 
     it('sets the correct values for a toxic comment', async () => {
       let input = { body: 'This is a body.', checkToxicity: false };

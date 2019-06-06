@@ -34,6 +34,28 @@ function markAsOffTopic(input) {
   });
 }
 
+/*
+
+Examples of GraphQL:
+
+{
+  comment (id: "fef9fbdb-619e-44f5-8a90-b888c10991b5")
+  {
+    	body
+    	status
+    	actions
+    	{
+      	__typename
+        user
+        {
+          username
+        }
+    	}
+  }
+}
+
+*/
+
 async function handleComment(_context, comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
@@ -42,7 +64,8 @@ async function handleComment(_context, comment, body, isEditing) {
       relevantFamilies = await findRelevantFamilies(article.title);
   }
   let result = await analyseComment(body, relevantFamilies);
-  if (result.report) {
+  if (result.report === true) {
+    console.log("It's super horrible!");
     if (comment.checkToxicity)
       throw new ImmediateReportError();
     handlePositiveToxic(comment);
@@ -65,7 +88,7 @@ async function handleComment(_context, comment, body, isEditing) {
       comment.metadata = Object.assign({}, comment.metadata, {
         tisane: result
       });
-      console.log("Assigning metadata DONE: " + comment.metadata.tisane);
+      console.log("Assigning metadata DONE: " + Object.keys(comment.metadata.tisane));
     }
   } catch (err) {
     console.error(err);
