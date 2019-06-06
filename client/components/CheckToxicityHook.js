@@ -32,7 +32,11 @@ export default class CheckToxicityHook extends React.Component {
             __typename === 'FlagAction' && reason === 'TOXIC_COMMENT'
         )
       ) {
-        this.props.notify('error', t('talk-plugin-toxic-tisane.still_toxic'));
+        const comment = result.createComment.comment;
+        if (comment.metadata && comment.metadata.report)
+          this.props.notify('error', t('talk-plugin-toxic-tisane.straight_to_moderation'));
+        else
+          this.props.notify('error', t('talk-plugin-toxic-tisane.still_toxic'));
       }
 
       // Reset `checked` after comment was successfully posted.

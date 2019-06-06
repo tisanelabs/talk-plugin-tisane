@@ -39,10 +39,19 @@ function markAsOffTopic(input) {
 Examples of GraphQL:
 
 {
-  comment (id: "fef9fbdb-619e-44f5-8a90-b888c10991b5")
+  comment (id: "d7dbd3a4-cff9-4add-ad3a-fdf90ffe62e7")
   {
     	body
+    	toxicity
     	status
+    	tags
+      {
+        tag
+        {
+          name
+        }
+      }
+    	url
     	actions
     	{
       	__typename
@@ -66,8 +75,6 @@ async function handleComment(_context, comment, body, isEditing) {
   let result = await analyseComment(body, relevantFamilies);
   if (result.report === true) {
     console.log("It's super horrible!");
-    if (comment.checkToxicity)
-      throw new ImmediateReportError();
     handlePositiveToxic(comment);
   }
 

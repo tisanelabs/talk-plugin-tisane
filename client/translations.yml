@@ -2,9 +2,8 @@ ar:
   error:
     COMMENT_IS_TOXIC: |
       هل أنت واثق؟ قد تنتهك اللغة الواردة في هذا التعليق إرشادات المجموعة. يمكنك تعديل التعليق أو إرساله لمراجعته.
-    STRAIGHT_TO_MODERATION: |
-      The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "من غير المرجح"
     highly_likely: "من المرجح جدا"
     possibly: "ربما"
@@ -24,6 +23,7 @@ da:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
     possibly: "Possibly"
@@ -44,6 +44,7 @@ de:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: Unwahrscheinlich
     highly_likely: Höchstwahrscheinlich
     possibly: Möglicherweise
@@ -64,6 +65,7 @@ en:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Unlikely"
     highly_likely: "Highly Likely, Contains Criminal/Spammy content"
     possibly: "Possibly, but looks clean"
@@ -84,6 +86,7 @@ es:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Improbable"
     highly_likely: "Altamente Probable"
     possibly: "Posiblemente"
@@ -104,6 +107,7 @@ fr:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
     possibly: "Possibly"
@@ -123,6 +127,7 @@ he:
     STRAIGHT_TO_MODERATION: |
       ההערה תישלח לביקורת של המתווך ותפורסם רק אם אחרי הבדיקה
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "ההערה תישלח לביקורת של המתווך ותפורסם רק אם אחרי הבדיקה"
     unlikely: "לא סביר"
     highly_likely: "סביר מאוד"
     possibly: "יתכן"
@@ -142,6 +147,7 @@ it:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Improbabile"
     highly_likely: "Estremamente probabile"
     possibly: "Possibilmente"
@@ -162,6 +168,7 @@ nl_NL:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Onwaarschijnlijk"
     highly_likely: "Heel waarschijnlijk"
     possibly: "Mogelijk"
@@ -182,6 +189,7 @@ pt_BR:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Unlikely"
     highly_likely: "Highly Likely"
     possibly: "Possibly"
@@ -202,6 +210,7 @@ sr:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "Malo verovatno"
     highly_likely: "Vrlo verovatno"
     possibly: "Moguće"
@@ -220,6 +229,7 @@ zh_CN:
     STRAIGHT_TO_MODERATION: |
       The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.
   talk-plugin-toxic-tisane:
+    straight_to_moderation: "The comment appears to contain highly abusive content and will not be published until the moderation team reviews it."
     unlikely: "极低可能"
     highly_likely: "极高可能"
     possibly: "有可能"
