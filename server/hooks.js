@@ -42,25 +42,80 @@ async function handleComment(_context, comment, body, isEditing) {
   }
   result = await analyseComment(body, relevantFamilies);
   if (result.report) {
-    handlePositiveToxic(comment);
     if (comment.checkToxicity)
       throw new ImmediateReportError();
+    handlePositiveToxic(comment);
   }
 
   if (result.abuse && result.abuse.length > 0) {
-    handlePositiveToxic(comment);
     if (comment.checkToxicity)
       throw new ErrToxic();
+    handlePositiveToxic(comment);
   }
 
   if (result.offtopic) {
   //  markAsOffTopic(comment);
   }
-           
-  comment.metadata = Object.assign({}, comment.metadata, {
-    tisane: result
-  });
+  
+  try {
+    if (!isEditing) {
+      comment.metadata = Object.assign({}, comment.metadata, {
+        tisane: result
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
  
+}
+
+function sendFeedback() {
+  // If feedback sending is enabled, we need to add in the hooks for processing
+  // feedback.
+  if (SEND_FEEDBACK) {
+    // statusMap provides a map of Talk names to ones Perspective are expecting.
+    const statusMap = {
+      ACCEPTED: 'APPROVED',
+      REJECTED: 'DELETED',
+    };
+    // Merge these hooks into the hooks for plugging into the graph operations.
+    merge(hooks, {
+      RootMutation: {
+        // Hook into mutations associated with accepting/rejecting comments.
+        setCommentStatus: {
+          async post(root, args, ctx) {
+            if (ctx.user && args.status in statusMap) {
+              const comment = await ctx.loaders.Comments.get.load(args.id);
+              if (comment) {
+                const asset = await ctx.loaders.Assets.getByID.load(comment.asset_id);
+                // Submit feedback.
+                submitFeedback(comment, asset, statusMap[args.status]);
+              }
+            }
+          },
+        },
+        // Hook into mutations associated with featuring comments.
+        addTag: {
+          async post(root, args, ctx) {
+            if (
+              ctx.user &&
+              args.tag.name === 'FEATURED' &&
+              args.tag.item_type === 'COMMENTS'
+            ) {
+              const comment = await ctx.loaders.Comments.get.load(args.tag.id);
+              if (comment) {
+                const asset = await ctx.loaders.Assets.getByID.load(
+                  comment.asset_id
+                );
+                // Submit feedback.
+                submitFeedback(comment, asset, 'HIGHLIGHTED');
+              }
+            }
+          },
+        },
+      },
+    });
+  }
 }
 
 // Create all the hooks that will enable Tisane to add metadata to Comments.

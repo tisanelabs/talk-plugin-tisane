@@ -6,6 +6,7 @@ import { isToxic } from '../utils';
 
 const enhance = compose(
   withFragments({
+    // the "fragment" is a declaration
     comment: gql`
       fragment TalkToxicComments_TisaneLabel_Comment on Comment {
         actions {
