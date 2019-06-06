@@ -5,9 +5,9 @@ export function isToxic(actions) {
   );
 }
 
-export function isOffTopic(tags) {
-  return tags.some(
-    tagobj =>
-      tagobj.tag.name === 'OFF_TOPIC'
+export function isOffTopic(actions) {
+  return actions.some(
+    action =>
+      action.__typename === 'FlagAction' && action.reason === 'OFF_TOPIC'
   );
 }

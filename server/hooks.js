@@ -54,7 +54,7 @@ async function handleComment(_context, comment, body, isEditing) {
   }
 
   if (result.offtopic) {
-    markAsOffTopic(comment);
+  //  markAsOffTopic(comment);
   }
            
   comment.metadata = Object.assign({}, comment.metadata, {
@@ -63,7 +63,7 @@ async function handleComment(_context, comment, body, isEditing) {
  
 }
 
-// Create all the hooks that will enable Tisane to add scores to Comments.
+// Create all the hooks that will enable Tisane to add metadata to Comments.
 const hooks = {
   RootMutation: {
     editComment: {
