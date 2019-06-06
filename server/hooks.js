@@ -34,14 +34,19 @@ function markAsOffTopic(input) {
   });
 }
 
+async function getArticle(_context, id) {
+  const article = await _context.loaders.Assets.getByID.load(id);
+  return article;
+}
+
 function handleComment(_context, comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
-    const article = await _context.loaders.Assets.getByID.load(comment.asset_id);
+    const article = getArticle(_context, comment.asset_id);
     if (article)
-      relevantFamilies = await findRelevantFamilies(article.title);
+      relevantFamilies = findRelevantFamilies(article.title);
   }
-  let result = await analyseComment(body, relevantFamilies);
+  let result = analyseComment(body, relevantFamilies);
   if (result.report) {
     if (comment.checkToxicity)
       throw new ImmediateReportError();
