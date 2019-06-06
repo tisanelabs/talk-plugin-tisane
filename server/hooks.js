@@ -19,6 +19,7 @@ function handlePositiveToxic(input) {
     group_id: "TOXIC_COMMENT",
     metadata: {}
   });
+  console.log("handlePositiveToxic END");
 }
 
 //not used for now due to conflict on what to do next
@@ -40,7 +41,7 @@ async function handleComment(_context, comment, body, isEditing) {
     if (article)
       relevantFamilies = await findRelevantFamilies(article.title);
   }
-  result = await analyseComment(body, relevantFamilies);
+  let result = await analyseComment(body, relevantFamilies);
   if (result.report) {
     if (comment.checkToxicity)
       throw new ImmediateReportError();
@@ -61,9 +62,11 @@ async function handleComment(_context, comment, body, isEditing) {
   
   try {
     if (!isEditing) {
+      console.log("Assigning metadata");
       comment.metadata = Object.assign({}, comment.metadata, {
         tisane: result
       });
+      console.log("Assigning metadata DONE: " + comment.metadata.tisane);
     }
   } catch (err) {
     console.error(err);
