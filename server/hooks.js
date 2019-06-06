@@ -76,13 +76,13 @@ async function handleComment(_context, comment, body, isEditing) {
   if (result.report === true) {
     console.log("It's super horrible!");
     handlePositiveToxic(comment);
-  }
-
-  if (result.abuse && result.abuse.length > 0) {
-    console.log("It's abusive!");
-    if (comment.checkToxicity)
-      throw new ErrToxic();
-    handlePositiveToxic(comment);
+  } else {
+    if (result.abuse && result.abuse.length > 0) {
+      console.log("It's abusive!");
+      if (comment.checkToxicity)
+        throw new ErrToxic();
+      handlePositiveToxic(comment);
+    }
   }
 
   if (result.offtopic) {
