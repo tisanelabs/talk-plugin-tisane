@@ -34,7 +34,7 @@ function markAsOffTopic(input) {
   });
 }
 
-async function handleComment(_context, comment, body, isEditing) {
+function handleComment(_context, comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
     const article = await _context.loaders.Assets.getByID.load(comment.asset_id);
@@ -49,10 +49,9 @@ async function handleComment(_context, comment, body, isEditing) {
   }
 
   if (result.abuse && result.abuse.length > 0) {
-    /*
+    console.log("It's abusive!");
     if (comment.checkToxicity)
       throw new ErrToxic();
-      */
     handlePositiveToxic(comment);
   }
 

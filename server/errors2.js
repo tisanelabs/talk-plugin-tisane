@@ -9,6 +9,7 @@ class ImmediateReportError extends TalkError {
       status: 400,
       translation_key: 'STRAIGHT_TO_MODERATION',
     });
+    console.log("Super-abusive");
   }
 }
 

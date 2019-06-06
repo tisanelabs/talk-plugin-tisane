@@ -9,6 +9,7 @@ class ErrToxic extends TalkError {
       status: 400,
       translation_key: 'COMMENT_IS_TOXIC',
     });
+    console.log("Abusive, but giving them second chance");
   }
 }
 
