@@ -34,19 +34,14 @@ function markAsOffTopic(input) {
   });
 }
 
-async function getArticle(_context, id) {
-  const article = await _context.loaders.Assets.getByID.load(id);
-  return article;
-}
-
-function handleComment(_context, comment, body, isEditing) {
+async function handleComment(_context, comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
-    const article = getArticle(_context, comment.asset_id);
+    const article = await _context.loaders.Assets.getByID.load(_context, comment.asset_id);
     if (article)
-      relevantFamilies = findRelevantFamilies(article.title);
+      relevantFamilies = await findRelevantFamilies(article.title);
   }
-  let result = analyseComment(body, relevantFamilies);
+  let result = await analyseComment(body, relevantFamilies);
   if (result.report) {
     if (comment.checkToxicity)
       throw new ImmediateReportError();
@@ -132,12 +127,12 @@ const hooks = {
   RootMutation: {
     editComment: {
       pre: async (_, { edit: { body }, edit }, _context) => {
-        handleComment(_context, edit, body, true);        
+        await handleComment(_context, edit, body, true);        
       }
     },
     createComment: {
       async pre(_, { input }, _context, _info) {
-        handleComment(_context, input, input.body, false);     
+        await handleComment(_context, input, input.body, false);     
       }
     }
   }
