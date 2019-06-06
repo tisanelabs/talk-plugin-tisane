@@ -45,6 +45,7 @@ function severityGradeToNumber(severity) {
     case "medium" : return 1;
     case "high" : return 2;
     case "extreme" : return 3;
+    case "default": return 3;
     default : return 0;
   }
 }
