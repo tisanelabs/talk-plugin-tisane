@@ -37,7 +37,7 @@ function markAsOffTopic(input) {
 async function handleComment(_context, comment, body, isEditing) {
   let relevantFamilies;
   if (!comment.parent_id) {
-    const article = await _context.loaders.Assets.getByID.load(_context, comment.asset_id);
+    const article = await _context.loaders.Assets.getByID.load(comment.asset_id);
     if (article)
       relevantFamilies = await findRelevantFamilies(article.title);
   }
