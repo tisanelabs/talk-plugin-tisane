@@ -7,7 +7,7 @@ module.exports = {
       // data as it is save in the Field
       get(
         comment,
-        `metadata.perspective.TOXICITY.AbuseLevel`,
+        `metadata.tisane.maxLevel`,
         0
       ),
   },

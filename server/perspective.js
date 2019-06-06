@@ -80,6 +80,7 @@ async function analyseComment(text, relevant) {
     console.log("Get Score for Text Error: " + data.error);
     return {
       abuse: null,
+      maxLevel: null,
       signal2noise: null
     };
   }
@@ -91,6 +92,7 @@ async function analyseComment(text, relevant) {
   const minBlockedAbuseSeverityLevel = severityGradeToNumber(TALK_TISANE_MIN_BLOCKED_LEVEL);
   let filteredAbuseInstances = [];
   let reportImmediately = false;
+  let maxLevel = 0;
   if (data.abuse) {
     for (let abIn of data.abuse) {
       let abuseType = abIn.type;
@@ -102,6 +104,8 @@ async function analyseComment(text, relevant) {
       } else {
         let level = severityGradeToNumber(abIn.severity);
         if (level < minBlockedAbuseSeverityLevel) continue;
+        if (maxLevel < level)
+          maxLevel = level;
       }
       filteredAbuseInstances.push(abIn);
     }
@@ -111,6 +115,7 @@ async function analyseComment(text, relevant) {
     abuse: filteredAbuseInstances,
     report: reportImmediately,
     signal2noise: data.signal2noise,
+    maxLevel: maxLevel + 1,
     offtopic: data.signal2noise < TALK_TISANE_MINIMUM_SIGNAL2NOISE
   };
 }

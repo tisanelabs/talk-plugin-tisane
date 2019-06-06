@@ -1,7 +1,7 @@
 import { compose, gql } from 'react-apollo';
 import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import {PersonalAttackLabel, HateSpeechLabel, SexualAdvancesLabel, ProfanityLabel, CriminalActivityLabel, 
-  ExternalContactLabel, LowRelevanceLabel, SpamLabel} from '../components/TisaneLabel';
+  ExternalContactLabel, LowRelevanceLabel, SpamLabel, ToxicLabel} from '../components/TisaneLabel';
 import { isToxic } from '../utils';
 
 const enhance = compose(
@@ -21,6 +21,7 @@ const enhance = compose(
   excludeIf(({ comment: { actions } }) => !isToxic(actions))
 );
 
+export default enhance(ToxicLabel);
 export default enhance(PersonalAttackLabel);
 export default enhance(HateSpeechLabel);
 export default enhance(SexualAdvancesLabel);
