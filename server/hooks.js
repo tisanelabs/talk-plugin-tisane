@@ -48,8 +48,10 @@ async function handleComment(_context, comment, body, isEditing) {
   }
 
   if (result.abuse && result.abuse.length > 0) {
+    /*
     if (comment.checkToxicity)
       throw new ErrToxic();
+      */
     handlePositiveToxic(comment);
   }
 
