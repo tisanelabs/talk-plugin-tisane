@@ -28,7 +28,7 @@ da:
     highly_likely: "Highly Likely"
     possibly: "Possibly"
     likely: "Likely"
-    toxic_comment: "Toxic Comment"
+    toxic_comment: "Abuse ☠️"
     still_toxic: |
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
@@ -70,7 +70,7 @@ en:
     highly_likely: "Highly Likely, Contains Criminal/Spammy content"
     possibly: "Possibly, but looks clean"
     likely: "Likely, Contains Bigotry/Personal_attack/Sexual/Profanity content"
-    toxic_comment: "Toxic Comment"
+    toxic_comment: "Abuse ☠️"
     still_toxic: |
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
@@ -112,7 +112,7 @@ fr:
     highly_likely: "Highly Likely"
     possibly: "Possibly"
     likely: "Likely"
-    toxic_comment: "Toxic Comment"
+    toxic_comment: "Abuse ☠️"
     still_toxic: |
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
@@ -173,7 +173,7 @@ nl_NL:
     highly_likely: "Heel waarschijnlijk"
     possibly: "Mogelijk"
     likely: "Waarschijnlijk"
-    toxic_comment: "Toxic Comment"
+    toxic_comment: "Abuse ☠️"
     still_toxic: |
       Deze gewijzigde reactie kan nog steeds onze community richtlijnen schenden
       Ons moderatieteam zal je reactie beoordelen.
@@ -194,7 +194,7 @@ pt_BR:
     highly_likely: "Highly Likely"
     possibly: "Possibly"
     likely: "Likely"
-    toxic_comment: "Toxic Comment"
+    toxic_comment: "Abuse ☠️"
     still_toxic: |
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
