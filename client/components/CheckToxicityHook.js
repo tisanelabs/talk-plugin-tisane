@@ -33,7 +33,10 @@ export default class CheckToxicityHook extends React.Component {
         )
       ) {
         const comment = result.createComment.comment;
-        console.log(Object.keys(comment));
+        if (!comment)
+          console.log("No comment!!!");
+        else
+          console.log(Object.keys(comment));
         if (comment.metadata && comment.metadata.report) {
           this.props.notify('error', t('talk-plugin-toxic-tisane.straight_to_moderation'));
         } else {
