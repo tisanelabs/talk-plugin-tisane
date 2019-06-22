@@ -100,6 +100,9 @@ async function handleComment(_context, comment, body, isEditing) {
   } catch (err) {
     console.error(err);
   }
+
+  if (result.report == true)
+    throw new ImmediateReportError();
  
 }
 
