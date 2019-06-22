@@ -75,6 +75,8 @@ async function handleComment(_context, comment, body, isEditing) {
   let result = await analyseComment(body, relevantFamilies);
   if (result.report === true) {
     console.log("It's super horrible!");
+    if (comment.checkAbuse)
+      throw new ImmediateReportError();
     handlePositiveToxic(comment);
   } else {
     if (result.abuse && result.abuse.length > 0) {
@@ -101,9 +103,6 @@ async function handleComment(_context, comment, body, isEditing) {
     console.error(err);
   }
 
-  if (result.report == true)
-    throw new ImmediateReportError();
- 
 }
 
 function sendFeedback() {

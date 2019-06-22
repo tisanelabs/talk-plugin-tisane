@@ -7,7 +7,7 @@ class ImmediateReportError extends TalkError {
   constructor() {
     super('The comment appears to contain highly abusive content and will not be published until the moderation team reviews it.', {
       status: 400,
-      translation_key: 'talk-plugin-toxic-tisane.straight_to_moderation',
+      translation_key: 'STRAIGHT_TO_MODERATION',
     });
     console.log("Super-abusive");
   }
