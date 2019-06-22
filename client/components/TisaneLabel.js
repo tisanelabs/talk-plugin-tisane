@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlagLabel } from 'plugin-api/beta/client/components/ui';
 
-const ToxicLabel = () => <FlagLabel iconName="error">Toxic ☠️</FlagLabel>;
+const TisaneToxicLabel = () => <FlagLabel iconName="error">Toxic ☠️</FlagLabel>;
 const PersonalAttackLabel = () => <FlagLabel iconName="error">Personal Attack</FlagLabel>;
 const HateSpeechLabel = () => <FlagLabel iconName="error">Hate Speech</FlagLabel>;
 const SexualAdvancesLabel = () => <FlagLabel iconName="error">Sexual Advances</FlagLabel>;
@@ -11,7 +11,7 @@ const ExternalContactLabel = () => <FlagLabel iconName="error">External Contact<
 const LowRelevanceLabel = () => <FlagLabel iconName="error">Low Relevance</FlagLabel>;
 const SpamLabel = () => <FlagLabel iconName="error">Spam</FlagLabel>;
 
-export default ToxicLabel;
+export default TisaneToxicLabel;
 /*
 export default PersonalAttackLabel;
 export default HateSpeechLabel;
