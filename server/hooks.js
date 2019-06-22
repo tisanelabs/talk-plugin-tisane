@@ -1,7 +1,7 @@
 const {
   analyseComment,
   findRelevantFamilies
-} = require("./perspective");
+} = require("./tisane");
 
 const { ErrToxic } = require("./errors");
 const { ImmediateReportError } = require("./errors2");
@@ -109,7 +109,7 @@ function sendFeedback() {
   // If feedback sending is enabled, we need to add in the hooks for processing
   // feedback.
   if (SEND_FEEDBACK) {
-    // statusMap provides a map of Talk names to ones Perspective are expecting.
+    // statusMap provides a map of Talk names to ones Tisane is expecting.
     const statusMap = {
       ACCEPTED: 'APPROVED',
       REJECTED: 'DELETED',

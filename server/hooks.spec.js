@@ -4,14 +4,14 @@ const { ErrToxic } = require('./errors');
 // Mock out the perspective api call.
 jest.mock('./perspective');
 
-describe('talk-plugin-toxic-comments', () => {
+describe('talk-plugin-tisane', () => {
   describe('hooks', () => {
     beforeEach(() => {
-      require('./perspective').setValues({ isToxic: false });
+      require('./tisane').setValues({ isToxic: false });
     });
 
     it('sets the correct values for a toxic comment', async () => {
-      let input = { body: 'This is a body.', checkToxicity: false };
+      let input = { body: 'This is a body.', checkAbuse: false };
       await hooks.RootMutation.createComment.pre(null, { input }, null, null);
       expect(input).toHaveProperty('status', 'SYSTEM_WITHHELD');
     });
@@ -21,7 +21,7 @@ describe('talk-plugin-toxic-comments', () => {
       await expect(
         hooks.RootMutation.createComment.pre(
           null,
-          { input: { checkToxicity: true } },
+          { input: { checkAbuse: true } },
           null,
           null
         )
