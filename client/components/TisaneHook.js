@@ -3,27 +3,29 @@ import PropTypes from 'prop-types';
 import { t } from 'plugin-api/beta/client/services';
 
 /**
- * CheckToxicityHook adds hooks to the `commentBox`
+ * TisaneHook adds hooks to the `commentBox`
  * that handles checking a comment for toxicity.
  */
 export default class TisaneHook extends React.Component {
-  // checked signifies if we already sent a request with the `checkToxicity` set to true.
+  // checked signifies if we already sent a request with the `checkAbuse` set to true.
   checked = false;
 
   componentDidMount() {
     this.toxicityPreHook = this.props.registerHook('preSubmit', input => {
-      // If we haven't check the toxicity yet, make sure to include `checkToxicity=true` in the mutation.
+      // If we haven't check the toxicity yet, make sure to include `checkAbuse=true` in the mutation.
       // Otherwise post comment without checking the toxicity.
+      console.log('Pre submit');
       if (!this.checked) {
         this.checked = true;
         return {
           ...input,
-          checkToxicity: true,
+          checkAbuse: true,
         };
       }
     });
 
     this.toxicityPostHook = this.props.registerHook('postSubmit', result => {
+      console.log('Post submit');
       const actions = result.createComment.actions;
       if (
         actions &&

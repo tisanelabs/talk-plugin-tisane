@@ -1,7 +1,7 @@
 const { TalkError } = require('errors');
 
 // ErrToxic is sent during a `CreateComment` mutation where
-// `input.checkToxicity` is set to true and the comment contains
+// `input.checkAbuse` is set to true and the comment contains
 // toxic language as determined by the perspective service.
 class ImmediateReportError extends TalkError {
   constructor() {

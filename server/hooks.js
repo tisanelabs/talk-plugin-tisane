@@ -79,7 +79,7 @@ async function handleComment(_context, comment, body, isEditing) {
   } else {
     if (result.abuse && result.abuse.length > 0) {
       console.log("It's abusive!");
-      if (comment.checkToxicity)
+      if (comment.checkAbuse)
         throw new ErrToxic();
       handlePositiveToxic(comment);
     }
