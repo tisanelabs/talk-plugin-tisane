@@ -36,7 +36,7 @@ export default class TisaneHook extends React.Component {
       ) {
         const comment = result.createComment.comment;
         console.log(Object.keys(comment));
-        if (comment.metadata && comment.metadata.report) {
+        if (comment.metadata.report) {
           this.props.notify('error', t('talk-plugin-toxic-tisane.straight_to_moderation'));
         } else {
           this.props.notify('error', t('talk-plugin-toxic-tisane.still_toxic'));
