@@ -22,6 +22,7 @@ const enhance = compose(
 );
 
 export default enhance(ToxicLabel);
+/*
 export default enhance(PersonalAttackLabel);
 export default enhance(HateSpeechLabel);
 export default enhance(SexualAdvancesLabel);
@@ -30,3 +31,4 @@ export default enhance(CriminalActivityLabel);
 export default enhance(ExternalContactLabel);
 export default enhance(LowRelevanceLabel);
 export default enhance(SpamLabel);
+*/
