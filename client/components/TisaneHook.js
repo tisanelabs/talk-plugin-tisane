@@ -6,7 +6,7 @@ import { t } from 'plugin-api/beta/client/services';
  * CheckToxicityHook adds hooks to the `commentBox`
  * that handles checking a comment for toxicity.
  */
-export default class CheckToxicityHook extends React.Component {
+export default class TisaneHook extends React.Component {
   // checked signifies if we already sent a request with the `checkToxicity` set to true.
   checked = false;
 
@@ -56,7 +56,7 @@ export default class CheckToxicityHook extends React.Component {
   }
 }
 
-CheckToxicityHook.propTypes = {
+TisaneHook.propTypes = {
   notify: PropTypes.func.isRequired,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
