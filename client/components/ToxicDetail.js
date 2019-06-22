@@ -1,7 +1,7 @@
 import React from 'react';
 import { CommentDetail } from 'plugin-api/beta/client/components';
 import { isToxic, isOffTopic } from '../utils';
-import styles from './TisaneLabel.css';
+import styles from './TisaneDetail.css';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { t } from 'plugin-api/beta/client/services';

@@ -12,6 +12,7 @@ const LowRelevanceLabel = () => <FlagLabel iconName="error">Low Relevance</FlagL
 const SpamLabel = () => <FlagLabel iconName="error">Spam</FlagLabel>;
 
 export default ToxicLabel;
+/*
 export default PersonalAttackLabel;
 export default HateSpeechLabel;
 export default SexualAdvancesLabel;
@@ -20,3 +21,4 @@ export default CriminalActivityLabel;
 export default ExternalContactLabel;
 export default LowRelevanceLabel;
 export default SpamLabel;
+*/
