@@ -1,6 +1,6 @@
 import { compose } from 'react-apollo';
 import { excludeIf } from 'plugin-api/beta/client/hocs';
-import ToxicDetail from './ToxicDetail';
+import TisaneToxicDetail from './TisaneDetail';
 import { isToxic } from '../utils';
 
 const enhance = compose(
@@ -10,4 +10,4 @@ const enhance = compose(
   )
 );
 
-export default enhance(ToxicDetail);
+export default enhance(TisaneToxicDetail);
