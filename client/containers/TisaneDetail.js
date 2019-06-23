@@ -1,6 +1,6 @@
 import { compose, gql } from 'react-apollo';
 import { withFragments } from 'plugin-api/beta/client/hocs';
-import ToxicDetail from '../components/ToxicDetail';
+import TisaneToxicDetail from '../components/TisaneDetail';
 
 const enhance = compose(
   withFragments({
@@ -18,4 +18,4 @@ const enhance = compose(
   })
 );
 
-export default enhance(ToxicDetail);
+export default enhance(TisaneToxicDetail);

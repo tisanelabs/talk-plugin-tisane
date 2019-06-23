@@ -17,7 +17,7 @@ const buildDescription = (actions, tags) => {
   );
 };
 
-const TisaneToxicLabel = ({ comment: { actions, toxicity, tags } }) => (
+const TisaneToxicDetail = ({ comment: { actions, toxicity, tags } }) => (
   <CommentDetail
     icon={'error'}
     header={t('talk-plugin-toxic-tisane.toxic_comment')}
@@ -25,7 +25,7 @@ const TisaneToxicLabel = ({ comment: { actions, toxicity, tags } }) => (
   />
 );
 
-TisaneToxicLabel.propTypes = {
+TisaneToxicDetail.propTypes = {
   comment: PropTypes.shape({
     actions: PropTypes.array,
     toxicity: PropTypes.toxicity,
@@ -33,4 +33,4 @@ TisaneToxicLabel.propTypes = {
   }),
 };
 
-export default TisaneToxicLabel;
+export default TisaneToxicDetail;
