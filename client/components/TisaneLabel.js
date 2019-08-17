@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlagLabel } from 'plugin-api/beta/client/components/ui';
 
-const TisaneLabel = () => <FlagLabel iconName="error">Toxic ☠️</FlagLabel>;
+const TisaneLabel = () => <FlagLabel iconName="error">Violation ☠️</FlagLabel>;
 /*
 const PersonalAttackLabel = () => <FlagLabel iconName="error">Personal Attack</FlagLabel>;
 const HateSpeechLabel = () => <FlagLabel iconName="error">Hate Speech</FlagLabel>;

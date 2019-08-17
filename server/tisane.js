@@ -141,7 +141,7 @@ async function findRelevantFamilies(title) {
       "sentiment": false,
       "words": false,
       "deterministic": true,
-      "format": "dialogue",
+      "format": "proofread",
       "domain_factors": normalizeDomainFactors(),
       "keyword_features": TALK_TISANE_KEYWORD_FEATURES[0],
       "stop_hypernyms": TALK_TISANE_STOP_HYPERNYMS
