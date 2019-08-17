@@ -1,6 +1,6 @@
 import { compose, gql } from 'react-apollo';
 import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
-import {TisaneLabel} from '../components/TisaneLabel';
+import {TisaneLabel} from './plugins/talk-plugin-tisane/client/TisaneLabel';
 import { isToxic } from '../utils';
 
 const enhance = compose(
