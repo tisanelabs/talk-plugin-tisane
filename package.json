@@ -2,7 +2,7 @@
   "name": "@coralproject/talk-plugin-toxic-tisane",
   "pluginName": "talk-plugin-toxic-tisane",
   "version": "0.0.2",
-  "description": "Provides support for measuring the toxicity of user comments using the Tisane API",
+  "description": "Allows seamless integration between Tisane API and Coral Project Talk for software-assisted moderation",
   "main": "index.js",
   "author": "Tisane Labs Pte. Ltd.",
   "license": "Apache-2.0"
